@@ -32,12 +32,13 @@ class CategoryController extends Controller
             }
         }
 
-        $category = [
-            'nav1' => $nav1,
-            'nav2' => $nav2,
-            'nav3' => $nav3
+        $response = [
+            'industry' => $nav1,
+            'material' => $nav2,
+            'style' => $nav3,
+            'message' => 'working fine'
         ];
-        $response = ['message' => 'working fine'];
+        // $response = ['message' => 'working fine','categories' => $categories];
         return response()->json($response);
     }
 }
