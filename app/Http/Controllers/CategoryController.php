@@ -12,6 +12,10 @@ class CategoryController extends Controller
         $navbarData = Categories::where('status', 'active')
         ->get();
 
+        $nav1 = [];
+        $nav2 = [];
+        $nav3 = [];
+
         foreach ($navbarData as $category) {
             switch ($category->nav_id) {
                 case 1:
