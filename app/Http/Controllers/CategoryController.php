@@ -24,17 +24,15 @@ class CategoryController extends Controller
                     $nav3[] = $category;
                     break;
                 default:
-                    // Handle other nav_ids or skip if not needed
                     break;
             }
         }
 
-        // Share the navbar data with the header view
-        $view->with([
+        $category = [
             'nav1' => $nav1,
             'nav2' => $nav2,
             'nav3' => $nav3
-        ]);
+        ];
         $response = ['message' => 'working fine'];
         return response()->json($response);
     }
