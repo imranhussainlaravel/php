@@ -10,6 +10,7 @@ class CategoryController extends Controller
     public function get_industry(){
 
         $navbarData = Categories::where('status', 'active')
+        ->select('id', 'title', 'icon', 'nav_id')
         ->get();
 
         $nav1 = [];
