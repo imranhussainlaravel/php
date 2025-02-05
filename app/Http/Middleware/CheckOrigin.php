@@ -12,17 +12,17 @@ class CheckOrigin
     {
         $allowedOrigins = explode(',', env('ALLOWED_ORIGINS', ''));
         $origin = $request->header('Origin');
-
+    
         // Allow requests without Origin header (non-browser clients)
         if (!$origin) {
             return $next($request);
         }
-
+    
         // Check if the Origin matches allowed domains
         if (!in_array($origin, $allowedOrigins)) {
             return response()->json(['error' => 'Origin not allowed'], 403);
         }
-
+    
         return $next($request);
     }
 }
