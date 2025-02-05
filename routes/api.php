@@ -7,8 +7,8 @@ use App\Http\Controllers\CategoryController;
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
-// Route::get('/get_industry',[CategoryController::class, 'get_industry']);
+Route::get('/get_industry',[CategoryController::class, 'get_industry']);
 
-Route::middleware('check.origin')->group(function () {
-    Route::get('/get_industry', [CategoryController::class, 'get_industry']);
-});
+// Route::middleware('check.origin')->group(function () {
+//     Route::get('/get_industry', [CategoryController::class, 'get_industry']);
+// });
