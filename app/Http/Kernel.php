@@ -28,9 +28,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \App\Http\Middleware\CheckOrigin::class, // Add this line
-            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // \App\Http\Middleware\CheckOrigin::class, // Add this line
+            // \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
+            // \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
