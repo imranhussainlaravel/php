@@ -61,40 +61,57 @@ class CategoryController extends Controller
 
     }
     public function get_category_by_id(Request $request)
-{
-    // Validate the incoming request
-    $id = $request->input('id');
+    {
+        // Validate the incoming request
+        $id = $request->input('id');
 
-    if (!$id) {
-        return response()->json(['message' => 'ID is required'], 400);
+        if (!$id) {
+            return response()->json(['message' => 'ID is required'], 400);
+        }
+
+        // Fetch category based on ID from the JSON request
+        $category = Categories::where('id', $request->id)
+            ->where('status', 'active')
+            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id')
+            ->first();
+
+        $productModel = new Product();
+        $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
+        ->where('status', 'active'); // Common condition
+
+        if ($category->nav_id == '1') {
+            $query->where('industry_id', $category->id);
+        } elseif ($category->nav_id == '2') {
+            $query->where('material_id', $category->id);
+        } elseif ($category->nav_id == '3') {
+            $query->where('style_id', $category->id);
+        }
+        
+        $products = $query->get()->toArray();
+        
+
+        return response()->json([
+            'category' => $category,
+            'products' => $products,
+            'message' => 'Category found successfully'
+        ]);
     }
+    public function get_product_by_id(Request $request)
+    {
+        $id = $request->input('id');
 
-    // Fetch category based on ID from the JSON request
-    $category = Categories::where('id', $request->id)
+        if (!$id) {
+            return response()->json(['message' => 'ID is required'], 400);
+        }
+
+        $product = Product::where('id', $request->id)
         ->where('status', 'active')
-        ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content')
         ->first();
 
-    $productModel = new Product();
-    $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
-    ->where('status', 'active'); // Common condition
-
-    if ($category->nav_id == '1') {
-        $query->where('industry_id', $category->id);
-    } elseif ($category->nav_id == '2') {
-        $query->where('material_id', $category->id);
-    } elseif ($category->nav_id == '3') {
-        $query->where('style_id', $category->id);
+        return response()->json([
+            'product' => $product,
+            'message' => 'Category found successfully'
+        ]);
     }
-    
-    $products = $query->get()->toArray();
-    
-
-    return response()->json([
-        'category' => $category,
-        'products' => $products,
-        'message' => 'Category found successfully'
-    ]);
-}
-
 }
