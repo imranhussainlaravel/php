@@ -42,4 +42,20 @@ class CategoryController extends Controller
         // $response = ['message' => 'working fine','categories' => $categories];
         return response()->json($response);
     }
+    public function get_all_category(){
+
+        $categories = Categories::where('status', 'active')
+        ->where('sorting', '!=', '0') // Replace $someValue with the value you want to exclude
+        ->orderBy('sorting', 'asc') // Order by sorting in ascending order
+        ->get();
+
+        $response = [
+            'categories' => $nav1,
+            'message' => 'working fine'
+        ];
+
+        return response()->json($response);
+
+
+    }
 }
