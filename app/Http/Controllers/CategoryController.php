@@ -50,7 +50,7 @@ class CategoryController extends Controller
         ->get();
 
         $response = [
-            'categories' => $nav1,
+            'categories' => $categories,
             'message' => 'working fine'
         ];
 
