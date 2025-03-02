@@ -114,4 +114,5 @@ class CategoryController extends Controller
             'message' => 'Category found successfully'
         ]);
     }
+
 }
