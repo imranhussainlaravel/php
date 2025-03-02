@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Laravel\Sanctum\HasApiTokens;
+
+use App\Models\User;
+use App\Models\Categories;
+
 
 
 class AdminController extends Controller
@@ -46,6 +49,23 @@ class AdminController extends Controller
             'token' => $token,
             'admin_type' => $user->usertype
         ], 200);
+    }
+    public function admin_get_categories(){
+        
+        $navbarData = Categories::where('status', 'active')
+        // ->select('id', 'title', 'icon', 'nav_id')
+        ->select('id', 'title', 'nav_id','main_img','alt_name','icon','header_img','content','description')
+        ->get();
+
+        $response = [
+            'categories' => $navbarData,
+            'message' => 'categories available',
+        ];
+
+        return response()->json($response);
+    }
+    public function create_category(Request $request){
+        
     }
 }
 

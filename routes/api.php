@@ -14,6 +14,7 @@ Route::get('/get_all_category',[CategoryController::class, 'get_all_category']);
 Route::post('/get_category_by_id', [CategoryController::class, 'get_category_by_id']);
 Route::post('/get_product_by_id', [CategoryController::class, 'get_product_by_id']);
 Route::post('/login_user', [AdminController::class, 'login_user']);
+Route::get('/admin_get_categories', [AdminController::class, 'admin_get_categories']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');

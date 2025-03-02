@@ -39,7 +39,7 @@ class CategoryController extends Controller
             'industry' => $nav1,
             'material' => $nav2,
             'style' => $nav3,
-            'message' => 'working fine'
+            'message' => 'Categories found.',
         ];
         // $response = ['message' => 'working fine','categories' => $categories];
         return response()->json($response);
