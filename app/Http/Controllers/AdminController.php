@@ -65,6 +65,18 @@ class AdminController extends Controller
         return response()->json($response);
     }
     public function create_category(Request $request){
+
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'nav_id' => 'required|max:255',
+            'header_img' => 'nullable|image',  
+            'main_img' => 'nullable|image',  
+            'icon_file' => 'nullable|image', 
+            'alt_name' => 'nullable',
+            'content' => 'nullable',
+        ]);
+
         
     }
 }
