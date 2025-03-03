@@ -70,14 +70,108 @@ class AdminController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'nav_id' => 'required|max:255',
-            'header_img' => 'nullable|image',  
-            'main_img' => 'nullable|image',  
-            'icon_file' => 'nullable|image', 
+            'header_img' => 'nullable',  
+            'main_img' => 'nullable',  
+            'icon' => 'nullable', 
             'alt_name' => 'nullable',
             'content' => 'nullable',
+            'faqs' => 'nullable',
+            'id' => 'nullable',
         ]);
+
+        if(!empty($validatedData['id'])){
+
+            $category = Categories::find($validatedData['id']);
+            $category->title = $validatedData['title'];
+            $category->description = $validatedData['description'];
+            $category->nav_id = $validatedData['nav_id'];
+            $category->header_img = $validatedData['header_img'];
+            $category->main_img = $validatedData['main_img'] ;
+            $category->icon = $validatedData['icon'];
+            $category->content = $validatedData['content'];
+            $category->faqs = $validatedData['faqs'];
+            $category->alt_name = $validatedData['alt_name'];
+            $category->save();
+
+            $response = [
+                'message' => 'categories Updated sucessfully.',
+            ];
+    
+            return response()->json($response);
+
+        } else {
+            $category = new Categories();
+            $category->title = $validatedData['title'];
+            $category->description = $validatedData['description'];
+            $category->nav_id = $validatedData['nav_id'];
+            $category->header_img = $validatedData['header_img'];
+            $category->main_img = $validatedData['main_img'] ;
+            $category->icon = $validatedData['icon'];
+            $category->content = $validatedData['content'];
+            $category->faqs = $validatedData['faqs'];
+            $category->alt_name = $validatedData['alt_name'];
+            $category->save();
+
+            $response = [
+                'message' => 'categories added sucessfully.',
+            ];
+    
+            return response()->json($response);
+        }
+        
 
         
     }
+    public function saved_image(Request $request) {
+        $imageData = $request->input('image'); // Base64 string
+    
+        if ($imageData) {
+            // Extract file type
+            preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches);
+            $imageType = isset($matches[1]) ? $matches[1] : 'png'; // Default to PNG if unknown
+    
+            // Remove Base64 prefix
+            $imageData = preg_replace('#^data:image/\w+;base64,#i', '', $imageData);
+    
+            // Decode image
+            $decodedImage = base64_decode($imageData);
+    
+            // Ensure valid image before saving
+            if (!$decodedImage) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Invalid image data.',
+                    'status' => false
+                ], 400);
+            }
+    
+            // Define the images directory
+            $imageDirectory = public_path('images');
+    
+            // 🚨 Ensure the directory exists
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0777, true);
+            }
+    
+            // Save file
+            $imageName = time() . '.' . $imageType;
+            $imagePath = $imageDirectory . '/' . $imageName;
+            file_put_contents($imagePath, $decodedImage);
+    
+            return response()->json([
+                'image_url' => asset('images/' . $imageName),
+                'message' => 'Image uploaded successfully.',
+                'status' => true,
+            ]);
+        }
+    
+        return response()->json([
+            'image_url' => '',
+            'message' => 'No image provided.',
+            'status' => false
+        ], 400);
+    }
+    
+    
 }
 
