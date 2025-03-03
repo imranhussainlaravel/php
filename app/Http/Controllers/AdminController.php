@@ -91,6 +91,7 @@ class AdminController extends Controller
             $category->content = $validatedData['content'];
             $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
+            $category->status = $validatedData['status'];
             $category->save();
 
             $response = [
@@ -110,6 +111,7 @@ class AdminController extends Controller
             $category->content = $validatedData['content'];
             $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
+            $category->status = $validatedData['status'];
             $category->save();
 
             $response = [
