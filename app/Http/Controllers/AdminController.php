@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\User;
 use App\Models\Categories;
+use App\Models\Product;
+
 
 
 
@@ -125,20 +127,21 @@ class AdminController extends Controller
         
     }
     public function saved_image(Request $request) {
-        $imageData = $request->input('image'); // Base64 string
+        $imageData = $request->input('image');
+        
+        if (!$imageData) {
+            return response()->json([
+                'image_url' => '',
+                'message' => 'No image provided.',
+                'status' => false
+            ], 400);
+        }
     
-        if ($imageData) {
-            // Extract file type
-            preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches);
-            $imageType = isset($matches[1]) ? $matches[1] : 'png'; // Default to PNG if unknown
-    
-            // Remove Base64 prefix
+        try {
+            // Extract and process image data
             $imageData = preg_replace('#^data:image/\w+;base64,#i', '', $imageData);
-    
-            // Decode image
             $decodedImage = base64_decode($imageData);
-    
-            // Ensure valid image before saving
+            
             if (!$decodedImage) {
                 return response()->json([
                     'image_url' => '',
@@ -147,32 +150,158 @@ class AdminController extends Controller
                 ], 400);
             }
     
-            // Define the images directory
-            $imageDirectory = public_path('images');
+            // Create image resource
+            $image = @imagecreatefromstring($decodedImage);
+            if (!$image) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Unsupported image format.',
+                    'status' => false
+                ], 400);
+            }
     
-            // 🚨 Ensure the directory exists
+            // Create storage directory
+            $imageDirectory = public_path('images');
             if (!file_exists($imageDirectory)) {
                 mkdir($imageDirectory, 0777, true);
             }
     
-            // Save file
-            $imageName = time() . '.' . $imageType;
+            // Generate filename
+            $imageName = time() . '.webp';
             $imagePath = $imageDirectory . '/' . $imageName;
-            file_put_contents($imagePath, $decodedImage);
+    
+            // Save with WebP compression if supported
+            if (function_exists('imagewebp')) {
+                $success = imagewebp($image, $imagePath, 80);
+            } else {
+                // Fallback to original format
+                $success = file_put_contents($imagePath, $decodedImage);
+            }
+    
+            imagedestroy($image);
+    
+            if (!$success) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Failed to save image.',
+                    'status' => false
+                ], 500);
+            }
     
             return response()->json([
                 'image_url' => asset('images/' . $imageName),
                 'message' => 'Image uploaded successfully.',
                 'status' => true,
             ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'image_url' => '',
+                'message' => 'Image processing error: ' . $e->getMessage(),
+                'status' => false
+            ], 500);
+        }
+    }
+    public function delete_category(Request $request) {
+        $categoryId = $request->json('id');
+    
+        if (!$categoryId) {
+            return response()->json([
+                'message' => 'Category ID is required.',
+                'status' => false
+            ], 400);
+        }
+    
+        $category = Category::find($categoryId);
+    
+        if (!$category) {
+            return response()->json([
+                'message' => 'Category not found.',
+                'status' => false
+            ], 404);
+        }
+    
+        $imageFields = ['header_img', 'main_img', 'icon'];
+    
+        foreach ($imageFields as $field) {
+            if (!empty($category->$field)) {
+                $imagePath = public_path('images/' . $category->$field);
+    
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); 
+                }
+            }
+        }
+    
+        $category->delete();
+    
+        return response()->json([
+            'message' => 'Category and associated images deleted successfully.',
+            'status' => true
+        ], 200);
+    }
+
+    public function toggleCategory(Request $request) 
+    {  
+        $request->validate([ 
+            'id' => 'required',
+            'type' => 'required',
+            ]);
+        $category = Category::find($request->id); 
+        // Toggle value in database
+        if ($request->type === 'status') 
+        { 
+            $category->status = $category->status == "active" ? "inactive" : "active"; 
+        } elseif ($request->type === 'main_page')
+        { 
+            $category->main_page = $category->main_page == "listed" ? "unlisted" : "listed"; // Toggle showing 
+        } 
+        $category->save(); 
+        return response()->json([ 
+            'message' => 'Category updated successfully', 
+            // 'category_id' => $category->id, 
+            // 'updated_type' => $request->type, 
+        ]); 
+    }
+
+    public function create_product(Request $request) {
+        $validatedData = $request->validate([
+            'title'        => 'required|max:255',
+            'description'  => 'required',
+            'content'      => 'nullable',
+            'industry_id'  => 'required|integer',
+            'material_id'  => 'required|integer',
+            'style_id'     => 'required|integer',
+            'image_1'      => 'nullable',
+            'image_2'      => 'nullable',
+            'image_3'      => 'nullable',
+            'image_4'      => 'nullable',
+            'image_5'      => 'nullable',
+            'status'       => 'nullable|integer',
+            'id'           => 'nullable|integer',
+        ]);
+    
+        if (!empty($validatedData['id'])) {
+            $product = Product::find($validatedData['id']);
+    
+            if (!$product) {
+                return response()->json(['message' => 'Product not found.'], 404);
+            }
+    
+            $product->update($validatedData);
+            $message = 'Product updated successfully.';
+        } else {
+            // 🚀 No ID → Create new product
+            $product = Product::create($validatedData);
+            $message = 'Product created successfully.';
         }
     
         return response()->json([
-            'image_url' => '',
-            'message' => 'No image provided.',
-            'status' => false
-        ], 400);
+            'message' => $message,
+            'product' => $product,
+        ]);
     }
+    
     
     
 }

@@ -17,6 +17,8 @@ Route::post('/login_user', [AdminController::class, 'login_user']);
 Route::get('/admin_get_categories', [AdminController::class, 'admin_get_categories']);
 Route::get('/create_category', [AdminController::class, 'create_category']);
 Route::post('/saved_image', [AdminController::class, 'saved_image']);
+Route::post('/delete_category', [AdminController::class, 'delete_category']);
+Route::post('/create_product', [AdminController::class, 'create_product']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
