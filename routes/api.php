@@ -19,6 +19,7 @@ Route::get('/create_category', [AdminController::class, 'create_category']);
 Route::post('/saved_image', [AdminController::class, 'saved_image']);
 Route::post('/delete_category', [AdminController::class, 'delete_category']);
 Route::post('/create_product', [AdminController::class, 'create_product']);
+Route::post('/delete_product', [AdminController::class, 'delete_product']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');

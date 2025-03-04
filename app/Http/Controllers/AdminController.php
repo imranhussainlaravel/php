@@ -225,10 +225,10 @@ class AdminController extends Controller
     
         foreach ($imageFields as $field) {
             if (!empty($category->$field)) {
-                $imagePath = public_path('images/' . $category->$field);
+                // $imagePath = public_path('images/' . $category->$field);
     
-                if (file_exists($imagePath)) {
-                    unlink($imagePath); 
+                if (file_exists($category->$field)) {
+                    unlink($category->$field); 
                 }
             }
         }
@@ -266,8 +266,13 @@ class AdminController extends Controller
 
     public function create_product(Request $request) {
         $validatedData = $request->validate([
+            'id'           => 'nullable|integer',
             'title'        => 'required|max:255',
-            'description'  => 'required',
+            'title_2'      => 'nullable|max:255',
+            'alt_name'     => 'nullable|max:255',
+            'description'  => 'nullable',
+            'description_2' => 'nullable',
+            'faqs'         => 'nullable',
             'content'      => 'nullable',
             'industry_id'  => 'required|integer',
             'material_id'  => 'required|integer',
@@ -277,29 +282,79 @@ class AdminController extends Controller
             'image_3'      => 'nullable',
             'image_4'      => 'nullable',
             'image_5'      => 'nullable',
-            'status'       => 'nullable|integer',
-            'id'           => 'nullable|integer',
+            'status'       => 'nullable',
         ]);
     
+        $productData = [
+            'title'        => $validatedData['title'],
+            'title_2'      => $validatedData['title_2'] ?? "",
+            'alt_name'     => $validatedData['alt_name'] ?? "",
+            'description'  => $validatedData['description'],
+            'description_2' => $validatedData['description_2'] ?? "",
+            'faqs'         => $validatedData['faqs'] ?? "",
+            'content'      => $validatedData['content'] ?? "",
+            'industry_id'  => $validatedData['industry_id'],
+            'material_id'  => $validatedData['material_id'],
+            'style_id'     => $validatedData['style_id'],
+            'image_1'      => $validatedData['image_1'] ?? "",
+            'image_2'      => $validatedData['image_2'] ?? "",
+            'image_3'      => $validatedData['image_3'] ?? "",
+            'image_4'      => $validatedData['image_4'] ?? "",
+            'image_5'      => $validatedData['image_5'] ?? "",
+            'status'       => $validatedData['status'] ?? "active",
+        ];
+    
         if (!empty($validatedData['id'])) {
-            $product = Product::find($validatedData['id']);
-    
-            if (!$product) {
-                return response()->json(['message' => 'Product not found.'], 404);
-            }
-    
-            $product->update($validatedData);
+            $product = Product::findOrFail($validatedData['id']);
+            $product->update($productData);
             $message = 'Product updated successfully.';
         } else {
-            // 🚀 No ID → Create new product
-            $product = Product::create($validatedData);
+            $product = Product::create($productData);
             $message = 'Product created successfully.';
         }
     
         return response()->json([
             'message' => $message,
-            'product' => $product,
+            'product' => $product->fresh(),
         ]);
+    }
+    public function delete_product(Request $request) {
+        $productid = $request->json('id');
+    
+        if (!$productid) {
+            return response()->json([
+                'message' => 'Category ID is required.',
+                'status' => false
+            ], 400);
+        }
+    
+        $product = Product::find($productid);
+    
+        if (!$product) {
+            return response()->json([
+                'message' => 'Category not found.',
+                'status' => false
+            ], 404);
+        }
+    
+        $imageFields = ['image_1', 'image_2', 'image_3' , 'image_4', 'image_5'];
+    
+        foreach ($imageFields as $field) {
+            if (!empty($product->$field)) {
+                // $imagePath = public_path('images/' . $product->$field);
+    
+                if (file_exists($product->$field)) {
+                    unlink($product->$field); 
+                }
+            }
+        }
+    
+        $product->delete();
+    
+        return response()->json([
+            'message' => 'Product and associated images deleted successfully.',
+            'status' => true
+        ], 200);
     }
     
     
