@@ -103,6 +103,7 @@ class AdminController extends Controller
 
             $response = [
                 'message' => 'categories Updated sucessfully.',
+                'status' => 200
             ];
     
             return response()->json($response);
@@ -125,6 +126,7 @@ class AdminController extends Controller
 
             $response = [
                 'message' => 'categories added sucessfully.',
+                'status' => 200
             ];
     
             return response()->json($response);
@@ -140,7 +142,7 @@ class AdminController extends Controller
             return response()->json([
                 'image_url' => '',
                 'message' => 'No image provided.',
-                'status' => false
+                'status' => 200
             ], 400);
         }
     
@@ -153,7 +155,7 @@ class AdminController extends Controller
                 return response()->json([
                     'image_url' => '',
                     'message' => 'Invalid image data.',
-                    'status' => false
+                    'status' => 200
                 ], 400);
             }
     
@@ -163,7 +165,7 @@ class AdminController extends Controller
                 return response()->json([
                     'image_url' => '',
                     'message' => 'Unsupported image format.',
-                    'status' => false
+                    'status' => 200
                 ], 400);
             }
     
@@ -191,21 +193,21 @@ class AdminController extends Controller
                 return response()->json([
                     'image_url' => '',
                     'message' => 'Failed to save image.',
-                    'status' => false
+                    'status' => 200
                 ], 500);
             }
     
             return response()->json([
                 'image_url' => asset('images/' . $imageName),
                 'message' => 'Image uploaded successfully.',
-                'status' => true,
+                'status' => 200
             ]);
     
         } catch (\Exception $e) {
             return response()->json([
                 'image_url' => '',
                 'message' => 'Image processing error: ' . $e->getMessage(),
-                'status' => false
+                 'status' => 200
             ], 500);
         }
     }
@@ -215,7 +217,7 @@ class AdminController extends Controller
         if (!$categoryId) {
             return response()->json([
                 'message' => 'Category ID is required.',
-                'status' => false
+                'status' => 200
             ], 400);
         }
     
@@ -224,7 +226,7 @@ class AdminController extends Controller
         if (!$category) {
             return response()->json([
                 'message' => 'Category not found.',
-                'status' => false
+                'status' => 200
             ], 404);
         }
     
@@ -244,7 +246,7 @@ class AdminController extends Controller
     
         return response()->json([
             'message' => 'Category and associated images deleted successfully.',
-            'status' => true
+            'status' => 200
         ], 200);
     }
 
@@ -338,6 +340,7 @@ class AdminController extends Controller
         return response()->json([
             'message' => $message,
             'product' => $product->fresh(),
+            'status' => 200
         ]);
     }
     public function delete_product(Request $request) {
@@ -346,7 +349,7 @@ class AdminController extends Controller
         if (!$productid) {
             return response()->json([
                 'message' => 'Category ID is required.',
-                'status' => false
+                'status' => 200
             ], 400);
         }
     
@@ -355,7 +358,7 @@ class AdminController extends Controller
         if (!$product) {
             return response()->json([
                 'message' => 'Category not found.',
-                'status' => false
+                'status' => 200
             ], 404);
         }
     
@@ -375,7 +378,7 @@ class AdminController extends Controller
     
         return response()->json([
             'message' => 'Product and associated images deleted successfully.',
-            'status' => true
+            'status' => 200
         ], 200);
     }
     
