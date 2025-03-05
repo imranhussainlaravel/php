@@ -290,6 +290,7 @@ class AdminController extends Controller
             // 'image_2'      => 'nullable',
             // 'image_3'      => 'nullable',
             // 'image_4'      => 'nullable',
+            'images'       => 'nullable|array',
             'image_5'      => 'nullable',
             'status'       => 'nullable',
         ]);
@@ -309,7 +310,6 @@ class AdminController extends Controller
             // 'image_2'      => $validatedData['image_2'] ?? "",
             // 'image_3'      => $validatedData['image_3'] ?? "",
             // 'image_4'      => $validatedData['image_4'] ?? "",
-            'images'       => 'nullable|array',
             'image_5'      => $validatedData['image_5'] ?? "",
             'status'       => $validatedData['status'] ?? "active",
         ];
