@@ -283,10 +283,10 @@ class AdminController extends Controller
             'industry_id'  => 'required|integer',
             'material_id'  => 'required|integer',
             'style_id'     => 'required|integer',
-            'image_1'      => 'nullable',
-            'image_2'      => 'nullable',
-            'image_3'      => 'nullable',
-            'image_4'      => 'nullable',
+            // 'image_1'      => 'nullable',
+            // 'image_2'      => 'nullable',
+            // 'image_3'      => 'nullable',
+            // 'image_4'      => 'nullable',
             'image_5'      => 'nullable',
             'status'       => 'nullable',
         ]);
@@ -302,13 +302,28 @@ class AdminController extends Controller
             'industry_id'  => $validatedData['industry_id'],
             'material_id'  => $validatedData['material_id'],
             'style_id'     => $validatedData['style_id'],
-            'image_1'      => $validatedData['image_1'] ?? "",
-            'image_2'      => $validatedData['image_2'] ?? "",
-            'image_3'      => $validatedData['image_3'] ?? "",
-            'image_4'      => $validatedData['image_4'] ?? "",
+            // 'image_1'      => $validatedData['image_1'] ?? "",
+            // 'image_2'      => $validatedData['image_2'] ?? "",
+            // 'image_3'      => $validatedData['image_3'] ?? "",
+            // 'image_4'      => $validatedData['image_4'] ?? "",
+            'images'       => 'nullable|array',
             'image_5'      => $validatedData['image_5'] ?? "",
             'status'       => $validatedData['status'] ?? "active",
         ];
+
+        if (!empty($validatedData['images'])) {
+            foreach ($validatedData['images'] as $index => $imageUrl) {
+                if ($index == 0) {
+                    $productData['image_1'] = $imageUrl;
+                } elseif ($index == 1) {
+                    $productData['image_2'] = $imageUrl;
+                } elseif ($index == 2) {
+                    $productData['image_3'] = $imageUrl;
+                } elseif ($index == 3) {
+                    $productData['image_4'] = $imageUrl;
+                }
+            }
+        }
     
         if (!empty($validatedData['id'])) {
             $product = Products::findOrFail($validatedData['id']);
