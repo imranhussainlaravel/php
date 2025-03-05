@@ -381,23 +381,28 @@ class AdminController extends Controller
             'status' => 200
         ], 200);
     }
-    public function admin_get_products(){
-        
-        $Products = Products::all();
-        // ->select('id', 'title', 'icon', 'nav_id')
-        // ->select('id', 'title', 'nav_id','main_img','alt_name','icon','header_img','content','description')
-        
-
+    public function admin_get_products() {
+        $products = Products::all()->map(function ($product) {
+            $product->images = array_filter([
+                $product->image_1,
+                $product->image_2,
+                $product->image_3,
+                $product->image_4
+            ]); // Removes null/empty values
+    
+            unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
+    
+            return $product;
+        });
+    
         $response = [
-            'Products' => $Products,
-            'message' => 'Products available',
-            'status' => 200
+            'products' => $products, // Use modified products
+            'message'  => 'Products available',
+            'status'   => 200
         ];
-
+    
         return response()->json($response);
     }
-    
-    
-    
+  
 }
 
