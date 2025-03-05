@@ -247,7 +247,7 @@ class AdminController extends Controller
             'id' => 'required',
             'type' => 'required',
             ]);
-        $category = Category::find($request->id); 
+        $category = Categories::find($request->id); 
         // Toggle value in database
         if ($request->type === 'status') 
         { 
