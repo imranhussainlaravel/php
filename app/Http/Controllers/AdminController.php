@@ -403,6 +403,22 @@ class AdminController extends Controller
     
         return response()->json($response);
     }
+
+    public function toggleproduct(Request $request) 
+    {  
+        $request->validate([ 
+            'id' => 'required',
+            ]);
+        $Products = Products::find($request->id); 
+        // Toggle value in database
+        
+        $Products->status = $Products->status == "active" ? "inactive" : "active"; 
+        $Products->save(); 
+        return response()->json([ 
+            'message' => 'Products updated successfully', 
+            'status' => 200
+        ]); 
+    }
   
 }
 
