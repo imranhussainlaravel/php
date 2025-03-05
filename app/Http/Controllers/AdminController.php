@@ -79,6 +79,8 @@ class AdminController extends Controller
             'content' => 'nullable',
             'faqs' => 'nullable',
             'id' => 'nullable',
+            'status' => 'nullable',
+            'main_page' => 'nullable',
         ]);
 
         if(!empty($validatedData['id'])){
@@ -94,6 +96,7 @@ class AdminController extends Controller
             $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
+            $category->main_page = $validatedData['main_page'];
             $category->save();
 
             $response = [
