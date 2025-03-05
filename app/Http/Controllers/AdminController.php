@@ -71,7 +71,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'nav_id' => 'required|max:255',
+            'nav_id' => 'required',
             'header_img' => 'nullable',  
             'main_img' => 'nullable',  
             'icon' => 'nullable', 
@@ -97,6 +97,7 @@ class AdminController extends Controller
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
             $category->main_page = $validatedData['main_page'];
+            $category->sorting = 0;
             $category->save();
 
             $response = [
@@ -118,6 +119,7 @@ class AdminController extends Controller
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
             $category->main_page = $validatedData['main_page'];
+            $category->sorting = 0;
             $category->save();
 
             $response = [
