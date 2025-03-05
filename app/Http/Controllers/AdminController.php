@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\User;
 use App\Models\Categories;
-use App\Models\Product;
+use App\Models\Products;
 
 
 
@@ -305,11 +305,11 @@ class AdminController extends Controller
         ];
     
         if (!empty($validatedData['id'])) {
-            $product = Product::findOrFail($validatedData['id']);
+            $product = Products::findOrFail($validatedData['id']);
             $product->update($productData);
             $message = 'Product updated successfully.';
         } else {
-            $product = Product::create($productData);
+            $product = Products::create($productData);
             $message = 'Product created successfully.';
         }
     
@@ -328,7 +328,7 @@ class AdminController extends Controller
             ], 400);
         }
     
-        $product = Product::find($productid);
+        $product = Products::find($productid);
     
         if (!$product) {
             return response()->json([
