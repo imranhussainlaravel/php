@@ -62,6 +62,7 @@ class AdminController extends Controller
         $response = [
             'categories' => $categories,
             'message' => 'categories available',
+            'status' => 200
         ];
 
         return response()->json($response);
