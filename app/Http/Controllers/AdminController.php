@@ -54,13 +54,13 @@ class AdminController extends Controller
     }
     public function admin_get_categories(){
         
-        $navbarData = Categories::where('status', 'active')
+        $categories = Categories::all();
         // ->select('id', 'title', 'icon', 'nav_id')
-        ->select('id', 'title', 'nav_id','main_img','alt_name','icon','header_img','content','description')
-        ->get();
+        // ->select('id', 'title', 'nav_id','main_img','alt_name','icon','header_img','content','description')
+        
 
         $response = [
-            'categories' => $navbarData,
+            'categories' => $categories,
             'message' => 'categories available',
         ];
 
