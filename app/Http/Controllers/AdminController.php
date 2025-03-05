@@ -212,7 +212,7 @@ class AdminController extends Controller
             ], 400);
         }
     
-        $category = Category::find($categoryId);
+        $category = Categories::find($categoryId);
     
         if (!$category) {
             return response()->json([
