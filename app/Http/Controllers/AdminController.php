@@ -77,7 +77,7 @@ class AdminController extends Controller
             'icon' => 'nullable', 
             'alt_name' => 'nullable',
             'content' => 'nullable',
-            'faqs' => 'nullable',
+            // 'faqs' => 'nullable',
             'id' => 'nullable',
             'status' => 'nullable',
             'main_page' => 'nullable',
@@ -93,7 +93,7 @@ class AdminController extends Controller
             $category->main_img = $validatedData['main_img'] ;
             $category->icon = $validatedData['icon'];
             $category->content = $validatedData['content'];
-            $category->faqs = $validatedData['faqs'];
+            // $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
             $category->main_page = $validatedData['main_page'];
@@ -114,9 +114,10 @@ class AdminController extends Controller
             $category->main_img = $validatedData['main_img'] ;
             $category->icon = $validatedData['icon'];
             $category->content = $validatedData['content'];
-            $category->faqs = $validatedData['faqs'];
+            // $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
+            $category->main_page = $validatedData['main_page'];
             $category->save();
 
             $response = [
