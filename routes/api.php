@@ -15,7 +15,7 @@ Route::post('/get_category_by_id', [CategoryController::class, 'get_category_by_
 Route::post('/get_product_by_id', [CategoryController::class, 'get_product_by_id']);
 Route::post('/login_user', [AdminController::class, 'login_user']);
 Route::get('/admin_get_categories', [AdminController::class, 'admin_get_categories']);
-Route::get('/create_category', [AdminController::class, 'create_category']);
+Route::post('/create_category', [AdminController::class, 'create_category']);
 Route::post('/saved_image', [AdminController::class, 'saved_image']);
 Route::post('/delete_category', [AdminController::class, 'delete_category']);
 Route::post('/toggleCategory', [AdminController::class, 'toggleCategory']);
