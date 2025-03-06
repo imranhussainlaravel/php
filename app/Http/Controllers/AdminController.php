@@ -270,6 +270,7 @@ class AdminController extends Controller
         $category->save(); 
         return response()->json([ 
             'message' => 'Category updated successfully', 
+            'status' => 200
             // 'category_id' => $category->id, 
             // 'updated_type' => $request->type, 
         ]); 
