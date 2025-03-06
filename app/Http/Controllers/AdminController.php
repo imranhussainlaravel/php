@@ -103,6 +103,7 @@ class AdminController extends Controller
 
             $response = [
                 'message' => 'categories Updated sucessfully.',
+                'category' => $category,
                 'status' => 200
             ];
     
