@@ -413,6 +413,12 @@ class AdminController extends Controller
             'id' => 'required',
             ]);
         $Products = Products::find($request->id); 
+        if (!$Products) {
+            return response()->json([
+                'message' => 'Product not found',
+                'status' => 404
+            ], 404);
+        }
         // Toggle value in database
         
         $Products->status = $Products->status == "active" ? "inactive" : "active"; 
