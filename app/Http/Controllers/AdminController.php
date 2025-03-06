@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\User;
 use App\Models\Categories;
 use App\Models\Products;
+use App\Models\Request as RequestModel; 
 
 
 
@@ -427,6 +428,34 @@ class AdminController extends Controller
             'message' => 'Products updated successfully', 
             'status' => 200
         ]); 
+    }
+    public function get_all_forms(){
+
+        $requests = RequestModel::orderBy('id', 'desc')->get();
+        $ALL = [
+            "quote" => [],
+            "contact_us" => [],
+            "subscribe" => [],
+        ];
+        foreach ($requests as $request) {
+            if($request->type == 'quote'){
+                $ALL['quote'][] = $request;
+            }
+            if($request->type == 'contact_us'){
+                $ALL['contact_us'][] = $request;
+            }
+            if($request->type == 'subscribe'){
+                $ALL['subscribe'][] = $request;
+            }
+        }
+
+        return response()->json([ 
+            // 'message' => 'Poducts updated successfully', 
+            "all_forms" => $ALL,
+            'status' => 200
+        ]); 
+
+
     }
   
 }

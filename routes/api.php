@@ -26,6 +26,7 @@ Route::post('/toggleproduct', [AdminController::class, 'toggleproduct']);
 Route::post('/create_product', [AdminController::class, 'create_product']);
 Route::post('/delete_product', [AdminController::class, 'delete_product']);
 
+Route::get('/get_all_forms', [AdminController::class, 'get_all_forms']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
