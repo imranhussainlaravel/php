@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Categories;
 use App\Models\Products;
 use App\Models\Blog;
+use App\Models\Portfolio;
 use App\Models\Request as RequestModel; 
 
 
@@ -550,6 +551,64 @@ class AdminController extends Controller
             'message' => 'Blog deleted successfully.'
         ]);
     }
-  
+
+    public function create_update_portfolio(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'nullable|integer',
+            'image' => 'required|string', // Assuming image URL or filename
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors(),'status'=>200], 422);
+        }
+
+        $portfolioData = [
+            'image' => $request->image,
+        ];
+
+        if (!empty($request->id)) {
+            $portfolio = Portfolio::find($request->id);
+            if (!$portfolio) {
+                return response()->json(['message' => 'Portfolio not found','status' => 200,], 404);
+            }
+            $portfolio->update($portfolioData);
+            $message = 'Portfolio updated successfully.';
+        } else {
+            $portfolio = Portfolio::create($portfolioData);
+            $message = 'Portfolio created successfully.';
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => $message,
+            'portfolio' => $portfolio
+        ]);
+    }
+
+    public function getPortfolios()
+    {
+        $portfolios = Portfolio::all();
+        return response()->json([
+            'status' => 200,
+            'portfolios' => $portfolios
+        ]);
+    }
+
+    public function deletePortfolio(Request $request)
+    {
+        $id = $request->json('id');
+
+        $portfolio = Portfolio::find($id);
+        if (!$portfolio) {
+            return response()->json(['message' => 'Portfolio not found','status' => 200], 404);
+        }
+
+        $portfolio->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Portfolio deleted successfully.'
+        ]);
+    }
 }
 
