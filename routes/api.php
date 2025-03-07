@@ -36,6 +36,7 @@ Route::post('/deleteBlog', [AdminController::class, 'deleteBlog']);
 
 Route::post('/create_update_portfolio', [AdminController::class, 'create_update_portfolio']);
 Route::get('/getPortfolios', [AdminController::class, 'getPortfolios']);
+Route::post('/deletePortfolio', [AdminController::class, 'deletePortfolio']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
