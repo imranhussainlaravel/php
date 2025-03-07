@@ -491,7 +491,7 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => $message,
-            'product' => $Blog->fresh(),
+            'Blog' => $Blog->fresh(),
             'status' => 200
         ]);
 
