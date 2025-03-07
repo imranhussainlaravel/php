@@ -496,6 +496,42 @@ class AdminController extends Controller
         ]);
 
     }
+    public function getadminBlogs()
+    {
+        $blogs = Blog::all(); 
+
+        return response()->json([
+            'status' => 200,
+            'blogs' => $blogs
+        ]);
+    }
+
+    public function getBlogs()
+    {
+        $blogs = Blog::where('status', 'active') // Only active blogs
+                     ->orderBy('sorting', 'asc') // Sorting
+                     ->get(['id', 'title', 'image']); // Fetch only title and image
+
+        return response()->json([
+            'status' => 200,
+            'blogs' => $blogs
+        ]);
+    }
+    public function getBlogById(Request $request)
+    {
+        $id = $request->json('id');
+    
+        $blog = Blog::find($id);
+
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found'], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'blog' => $blog // Returns title, image, content, etc.
+        ]);
+    }
   
 }
 
