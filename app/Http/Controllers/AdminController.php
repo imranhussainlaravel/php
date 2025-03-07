@@ -342,15 +342,13 @@ class AdminController extends Controller
             $product = Products::create($productData);
             $message = 'Product created successfully.';
         }
+        $responseProduct = $product->fresh()->toArray();
+        unset($responseProduct['image_1'], $responseProduct['image_2'], $responseProduct['image_3'], $responseProduct['image_4']);
+        $responseProduct['images'] = $validatedData['images'];
         
-        // $product->images = $validatedData['images'];
-        // $responseProduct = $product->fresh()->toArray();
-        // unset($responseProduct['image_1'], $responseProduct['image_2'], $responseProduct['image_3'], $responseProduct['image_4']);
-        // $responseProduct = $validatedData['images'];
         return response()->json([
             'message' => $message,
-            'product' => $product->fresh(),
-            // 'product' => $responseProduct,
+            'product' => $responseProduct,
             'status' => 200
         ]);
     }
