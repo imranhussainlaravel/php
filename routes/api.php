@@ -32,6 +32,7 @@ Route::post('/create_update_blog', [AdminController::class, 'create_update_blog'
 Route::get('/getadminBlogs', [AdminController::class, 'getadminBlogs']);
 Route::get('/getBlogs', [AdminController::class, 'getBlogs']);
 Route::post('/getBlogById', [AdminController::class, 'getBlogById']);
+Route::post('/deleteBlog', [AdminController::class, 'deleteBlog']);
 
 
 
