@@ -469,7 +469,7 @@ class AdminController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors(),'status'=>200], 422);
         }
 
         $blog_data = [
@@ -524,12 +524,30 @@ class AdminController extends Controller
         $blog = Blog::find($id);
 
         if (!$blog) {
-            return response()->json(['message' => 'Blog not found'], 404);
+            return response()->json(['message' => 'Blog not found','status' => 200], 404);
         }
 
         return response()->json([
             'status' => 200,
             'blog' => $blog // Returns title, image, content, etc.
+        ]);
+    }
+
+    public function deleteBlog(Request $request)
+    {
+        $id = $request->json('id');
+
+        $blog = Blog::find($id);
+
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found','status' => 200], 404);
+        }
+
+        $blog->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Blog deleted successfully.'
         ]);
     }
   
