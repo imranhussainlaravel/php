@@ -344,6 +344,7 @@ class AdminController extends Controller
         }
         
         $product->images = $validatedData['images'];
+        unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
         return response()->json([
             'message' => $message,
             'product' => $product->fresh(),
