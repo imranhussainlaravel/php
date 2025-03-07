@@ -342,7 +342,8 @@ class AdminController extends Controller
             $product = Products::create($productData);
             $message = 'Product created successfully.';
         }
-    
+        
+        $product->images = $validatedData['images'];
         return response()->json([
             'message' => $message,
             'product' => $product->fresh(),
