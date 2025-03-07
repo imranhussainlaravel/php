@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\User;
 use App\Models\Categories;
 use App\Models\Products;
+use App\Models\Blog;
 use App\Models\Request as RequestModel; 
 
 
@@ -455,6 +456,44 @@ class AdminController extends Controller
             'status' => 200
         ]); 
 
+
+    }
+    public function create_update_blog(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'nullable',
+            'title' => 'required',
+            'image' => 'required',
+            'content' => 'nullable|string',
+            'sorting' => 'nullable|integer',
+            'status' => 'nullable|in:active,inactive',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $blog_data = [
+            'title' => $request->title,
+            'image' => $request->image,
+            'content' => $request->content,
+            'sorting' => $request->sorting ?? 0,
+            'status' => $request->status ?? 'active',
+        ];
+
+        if (!empty($request->id)) {
+            $Blog = Blog::findOrFail($request->id);
+            $Blog->update($blog_data);
+            $message = 'Blog updated successfully.';
+        } else {
+            $Blog = Blog::create($blog_data);
+            $message = 'Blog created successfully.';
+        } 
+
+        return response()->json([
+            'message' => $message,
+            'product' => $Blog->fresh(),
+            'status' => 200
+        ]);
 
     }
   
