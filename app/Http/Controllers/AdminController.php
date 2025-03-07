@@ -557,30 +557,98 @@ class AdminController extends Controller
 
     public function create_update_portfolio(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id' => 'nullable|integer',
-            'image' => 'required|string', // Assuming image URL or filename
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors(),'status'=>200], 422);
+        $imageData = $request->input('image');
+        
+        if (!$imageData) {
+            return response()->json([
+                'image_url' => '',
+                'message' => 'No image provided.',
+                'status' => 200
+            ], 400);
         }
+    
+       
+            // Extract and process image data
+            $imageData = preg_replace('#^data:image/\w+;base64,#i', '', $imageData);
+            $decodedImage = base64_decode($imageData);
+            
+            if (!$decodedImage) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Invalid image data.',
+                    'status' => 200
+                ], 400);
+            }
+    
+            // Create image resource
+            $image = @imagecreatefromstring($decodedImage);
+            if (!$image) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Unsupported image format.',
+                    'status' => 200
+                ], 400);
+            }
+    
+            // Create storage directory
+            $imageDirectory = public_path('images');
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0777, true);
+            }
+    
+            // Generate filename
+            $imageName = time() . '.webp';
+            $imagePath = $imageDirectory . '/' . $imageName;
+    
+            // Save with WebP compression if supported
+            if (function_exists('imagewebp')) {
+                $success = imagewebp($image, $imagePath, 80);
+            } else {
+                // Fallback to original format
+                $success = file_put_contents($imagePath, $decodedImage);
+            }
+    
+            imagedestroy($image);
+    
+            if (!$success) {
+                return response()->json([
+                    'image_url' => '',
+                    'message' => 'Failed to save image.',
+                    'status' => 200
+                ], 500);
+            }
+            $image_url = asset('images/' . $imageName);
+    
+            // return response()->json([
+            //     'image_url' => asset('images/' . $imageName),
+            //     'message' => 'Image uploaded successfully.',
+            //     'status' => 200
+            // ]);
+    
+        // $validator = Validator::make($request->all(), [
+        //     'id' => 'nullable|integer',
+        //     'image' => 'required|string', // Assuming image URL or filename
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors(),'status'=>200], 422);
+        // }
 
         $portfolioData = [
-            'image' => $request->image,
+            'image' => $image_url, 
         ];
 
-        if (!empty($request->id)) {
-            $portfolio = Portfolio::find($request->id);
-            if (!$portfolio) {
-                return response()->json(['message' => 'Portfolio not found','status' => 200,], 404);
-            }
-            $portfolio->update($portfolioData);
-            $message = 'Portfolio updated successfully.';
-        } else {
+        // if (!empty($request->id)) {
+        //     $portfolio = Portfolio::find($request->id);
+        //     if (!$portfolio) {
+        //         return response()->json(['message' => 'Portfolio not found','status' => 200,], 404);
+        //     }
+        //     $portfolio->update($portfolioData);
+        //     $message = 'Portfolio updated successfully.';
+        // } else {
             $portfolio = Portfolio::create($portfolioData);
             $message = 'Portfolio created successfully.';
-        }
+        // }
 
         return response()->json([
             'status' => 200,
