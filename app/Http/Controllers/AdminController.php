@@ -533,6 +533,22 @@ class AdminController extends Controller
             'blogs' => $blogs
         ]);
     }
+    public function toggleblog(Request $request) 
+    {  
+        $request->validate([ 
+            'id' => 'required',
+            ]);
+        $Blog = Blog::find($request->id); 
+        // Toggle value in database 
+        $Blog->status = $Blog->status == "active" ? "inactive" : "active"; 
+        $Blog->save(); 
+        return response()->json([ 
+            'message' => 'Blog updated successfully', 
+            'status' => 200
+            // 'category_id' => $category->id, 
+            // 'updated_type' => $request->type, 
+        ]); 
+    }
 
     public function getBlogs()
     {
