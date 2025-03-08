@@ -456,7 +456,9 @@ class AdminController extends Controller
 
         return response()->json([ 
             // 'message' => 'Poducts updated successfully', 
-            "all_forms" => $ALL,
+            "quote" => $ALL['quote'],
+            "contact_us" => $ALL['contact_us'],
+            "subscribe" => $ALL['subscribe'],
             'status' => 200
         ]); 
 
