@@ -545,8 +545,6 @@ class AdminController extends Controller
         return response()->json([ 
             'message' => 'Blog updated successfully', 
             'status' => 200
-            // 'category_id' => $category->id, 
-            // 'updated_type' => $request->type, 
         ]); 
     }
 
