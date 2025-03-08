@@ -450,7 +450,7 @@ class AdminController extends Controller
                 $ALL['contact_us'][] = $request->only(['id','email','phone','name', 'status','description']);
             }
             if($request->type == 'subscribe'){
-                $ALL['subscribe'][] = $request->only(['id','email', 'status']);
+                $ALL['subscribe'][] = $request->only(['id','email', 'status','name']);
             }
         }
 
