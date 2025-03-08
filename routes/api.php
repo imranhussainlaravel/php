@@ -27,6 +27,7 @@ Route::post('/create_product', [AdminController::class, 'create_product']);
 Route::post('/delete_product', [AdminController::class, 'delete_product']);
 
 Route::get('/get_all_forms', [AdminController::class, 'get_all_forms']);
+Route::post('/changeformstatus', [AdminController::class, 'changeformstatus']);
 
 Route::post('/create_update_blog', [AdminController::class, 'create_update_blog']);
 Route::get('/getadminBlogs', [AdminController::class, 'getadminBlogs']);

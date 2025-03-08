@@ -464,6 +464,28 @@ class AdminController extends Controller
 
 
     }
+    public function changeformstatus(Request $request){
+        $form_id = $request->json('id');
+
+        if (!$form_id) {
+            return response()->json([
+                'message' => 'Category ID is required.',
+                'status' => 200
+            ], 400);
+        }
+    
+        $from = RequestModel::find($form_id);
+
+        $from->status = 'read';
+        $from->save(); 
+
+        return response()->json([
+            'message' => 'status_update_successfully',
+            // 'product' => $responseProduct,
+            'status' => 200
+        ]);
+    
+    }
     public function create_update_blog(Request $request){
         $validator = Validator::make($request->all(), [
             'id' => 'nullable',
