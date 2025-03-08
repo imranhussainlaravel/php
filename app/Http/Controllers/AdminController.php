@@ -447,10 +447,10 @@ class AdminController extends Controller
                 $ALL['quote'][] = $request;
             }
             if($request->type == 'contact_us'){
-                $ALL['contact_us'][] = $request;
+                $ALL['contact_us'][] = $request->only(['id','email','phone','name', 'status','description']);
             }
             if($request->type == 'subscribe'){
-                $ALL['subscribe'][] = $request;
+                $ALL['subscribe'][] = $request->only(['id','email', 'status']);
             }
         }
 
