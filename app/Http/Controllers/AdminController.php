@@ -729,9 +729,8 @@ class AdminController extends Controller
         $filePath = public_path($relativePath);
 
         if (file_exists($filePath)) {
-            // unlink($url); 
+            unlink($url); 
             return response()->json([
-                'filePath'=>$filePath,
                 'status' => 200,
                 'message' => 'Image deleted successfully.'
             ],200);
