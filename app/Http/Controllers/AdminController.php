@@ -719,5 +719,28 @@ class AdminController extends Controller
             'message' => 'Portfolio deleted successfully.'
         ]);
     }
+    public function deleteimages(Request $request){
+        $request->validate([ 
+            'url' => 'required',
+        ]);
+
+        $url = $request->url;
+
+        if (file_exists($url)) {
+            unlink($url); 
+            return response()->json([
+                'status' => 200,
+                'message' => 'Image deleted successfully.'
+            ],200);
+            // return Response::json(['message' => 'Image deleted successfully.','status'=> 200], 200);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'File not found.'
+            ],404);
+            // return Response::json(['error' => 'File not found.','status'=> 200], 404);
+        }
+    
+    }
 }
 
