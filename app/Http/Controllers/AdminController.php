@@ -727,7 +727,7 @@ class AdminController extends Controller
         $url = $request->url;
 
         if (file_exists($url)) {
-            unlink($url); 
+            // unlink($url); 
             return response()->json([
                 'status' => 200,
                 'message' => 'Image deleted successfully.'
