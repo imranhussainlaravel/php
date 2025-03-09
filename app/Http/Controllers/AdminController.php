@@ -239,10 +239,13 @@ class AdminController extends Controller
     
         foreach ($imageFields as $field) {
             if (!empty($category->$field)) {
-                // $imagePath = public_path('images/' . $category->$field);
-    
-                if (file_exists($category->$field)) {
-                    unlink($category->$field); 
+
+                $url = $category->$field;
+                $relativePath = str_replace(asset('/'), '', $url);
+                $filePath = public_path($relativePath);
+        
+                if (file_exists($filePath)) {
+                    unlink($filePath); 
                 }
             }
         }
@@ -375,10 +378,12 @@ class AdminController extends Controller
     
         foreach ($imageFields as $field) {
             if (!empty($product->$field)) {
-                // $imagePath = public_path('images/' . $product->$field);
-    
-                if (file_exists($product->$field)) {
-                    unlink($product->$field); 
+                $url = $product->$field;
+                $relativePath = str_replace(asset('/'), '', $url);
+                $filePath = public_path($relativePath);
+        
+                if (file_exists($filePath)) {
+                    unlink($filePath); 
                 }
             }
         }
@@ -585,6 +590,14 @@ class AdminController extends Controller
             return response()->json(['message' => 'Blog not found','status' => 200], 404);
         }
 
+        $url = $blog->$image;
+        $relativePath = str_replace(asset('/'), '', $url);
+        $filePath = public_path($relativePath);
+
+        if (file_exists($filePath)) {
+            unlink($filePath); 
+        }
+
         $blog->delete();
 
         return response()->json([
@@ -711,6 +724,14 @@ class AdminController extends Controller
         $portfolio = Portfolio::find($id);
         if (!$portfolio) {
             return response()->json(['message' => 'Portfolio not found','status' => 200], 404);
+        }
+
+        $url = $portfolio->$image;
+        $relativePath = str_replace(asset('/'), '', $url);
+        $filePath = public_path($relativePath);
+
+        if (file_exists($filePath)) {
+            unlink($filePath); 
         }
 
         $portfolio->delete();
