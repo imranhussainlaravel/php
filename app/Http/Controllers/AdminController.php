@@ -728,7 +728,7 @@ class AdminController extends Controller
         $relativePath = str_replace(asset('/'), '', $url);
         $filePath = public_path($relativePath);
 
-        if (file_exists($url)) {
+        if (file_exists($filePath)) {
             // unlink($url); 
             return response()->json([
                 'status' => 200,
