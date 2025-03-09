@@ -20,14 +20,6 @@ use App\Models\Request as RequestModel;
 
 class AdminController extends Controller
 {
-    // Admin Dashboard
-    // public function index()
-    // {
-    //     return response()->json([
-    //         'message' => 'Welcome to the admin dashboard',
-    //         'admin' => Auth::user(),
-    //     ]);
-    // }
     public function login_user(Request $request){
         $validator = validator::make($request->all() ,[
             'email' =>'required|email',
