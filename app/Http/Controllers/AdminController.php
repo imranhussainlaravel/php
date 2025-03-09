@@ -257,7 +257,6 @@ class AdminController extends Controller
             'status' => 200
         ], 200);
     }
-
     public function toggleCategory(Request $request) 
     {  
         $request->validate([ 
@@ -281,7 +280,6 @@ class AdminController extends Controller
             // 'updated_type' => $request->type, 
         ]); 
     }
-
     public function create_product(Request $request) {
         $validatedData = $request->validate([
             'id'           => 'nullable|integer',
@@ -417,9 +415,7 @@ class AdminController extends Controller
     
         return response()->json($response);
     }
-
-    public function toggleproduct(Request $request) 
-    {  
+    public function toggleproduct(Request $request) {  
         $request->validate([ 
             'id' => 'required',
             ]);
@@ -529,8 +525,7 @@ class AdminController extends Controller
         ]);
 
     }
-    public function getadminBlogs()
-    {
+    public function getadminBlogs(){
         $blogs = Blog::all(); 
 
         return response()->json([
@@ -538,8 +533,7 @@ class AdminController extends Controller
             'blogs' => $blogs
         ]);
     }
-    public function toggleblog(Request $request) 
-    {  
+    public function toggleblog(Request $request) {  
         $request->validate([ 
             'id' => 'required',
             ]);
@@ -552,9 +546,7 @@ class AdminController extends Controller
             'status' => 200
         ]); 
     }
-
-    public function getBlogs()
-    {
+    public function getBlogs(){
         $blogs = Blog::where('status', 'active') // Only active blogs
                      ->orderBy('sorting', 'asc') // Sorting
                      ->get(['id', 'title', 'image']); // Fetch only title and image
@@ -564,8 +556,7 @@ class AdminController extends Controller
             'blogs' => $blogs
         ]);
     }
-    public function getBlogById(Request $request)
-    {
+    public function getBlogById(Request $request){
         $id = $request->json('id');
     
         $blog = Blog::find($id);
@@ -579,9 +570,7 @@ class AdminController extends Controller
             'blog' => $blog // Returns title, image, content, etc.
         ]);
     }
-
-    public function deleteBlog(Request $request)
-    {
+    public function deleteBlog(Request $request){
         $id = $request->json('id');
 
         $blog = Blog::find($id);
@@ -605,9 +594,7 @@ class AdminController extends Controller
             'message' => 'Blog deleted successfully.'
         ]);
     }
-
-    public function create_update_portfolio(Request $request)
-    {
+    public function create_update_portfolio(Request $request){
         $imageData = $request->input('image');
         
         if (!$imageData) {
@@ -707,18 +694,14 @@ class AdminController extends Controller
             'portfolio' => $portfolio
         ]);
     }
-
-    public function getPortfolios()
-    {
+    public function getPortfolios(){
         $portfolios = Portfolio::all();
         return response()->json([
             'status' => 200,
             'portfolios' => $portfolios
         ]);
     }
-
-    public function deletePortfolio(Request $request)
-    {
+    public function deletePortfolio(Request $request){
         $id = $request->json('id');
 
         $portfolio = Portfolio::find($id);
@@ -755,13 +738,11 @@ class AdminController extends Controller
                 'status' => 200,
                 'message' => 'Image deleted successfully.'
             ],200);
-            // return Response::json(['message' => 'Image deleted successfully.','status'=> 200], 200);
         } else {
             return response()->json([
                 'status' => 200,
                 'message' => 'File not found.'
             ],404);
-            // return Response::json(['error' => 'File not found.','status'=> 200], 404);
         }
     
     }
