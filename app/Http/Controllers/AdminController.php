@@ -725,6 +725,8 @@ class AdminController extends Controller
         ]);
 
         $url = $request->url;
+        $relativePath = str_replace(asset('/'), '', $url);
+        $filePath = public_path($relativePath);
 
         if (file_exists($url)) {
             // unlink($url); 
