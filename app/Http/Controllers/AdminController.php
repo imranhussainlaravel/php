@@ -738,5 +738,48 @@ class AdminController extends Controller
         }
     
     }
+    public function get_category_product(){
+
+        $navbarData = Categories::select('id', 'title','nav_id')
+                    ->orderBy('title', 'asc')
+                    ->get();
+
+
+        $nav1 = [];
+        $nav2 = [];
+        $nav3 = [];
+
+        foreach ($navbarData as $category) {
+            switch ($category->nav_id) {
+                case 1:
+                    $nav1[] = $category;
+                    break;
+                case 2:
+                    $nav2[] = [
+                        'id'    => $category->id,
+                        'title' => $category->title,
+                        'nav_id'  => $category->nav_id,
+                    ];
+                    break;
+                case 3:
+                    $nav3[] = [
+                        'id'    => $category->id,
+                        'title' => $category->title,
+                        'nav_id'  => $category->nav_id,
+                    ];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $response = [
+            'industry' => $nav1,
+            'material' => $nav2,
+            'style' => $nav3,
+            'message' => 'Categories found.',
+        ];
+        return response()->json($response);
+    }
 }
 

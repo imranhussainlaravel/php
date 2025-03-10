@@ -13,6 +13,7 @@ class CategoryController extends Controller
 
         $navbarData = Categories::where('status', 'active')
         ->select('id', 'title', 'icon', 'nav_id')
+        ->orderBy('title', 'asc')
         ->get();
 
         $nav1 = [];
@@ -25,10 +26,18 @@ class CategoryController extends Controller
                     $nav1[] = $category;
                     break;
                 case 2:
-                    $nav2[] = $category;
+                    $nav2[] = [
+                        'id'    => $category->id,
+                        'title' => $category->title,
+                        'nav_id'  => $category->nav_id,
+                    ];
                     break;
                 case 3:
-                    $nav3[] = $category;
+                    $nav3[] = [
+                        'id'    => $category->id,
+                        'title' => $category->title,
+                        'nav_id'  => $category->nav_id,
+                    ];
                     break;
                 default:
                     break;
@@ -41,14 +50,13 @@ class CategoryController extends Controller
             'style' => $nav3,
             'message' => 'Categories found.',
         ];
-        // $response = ['message' => 'working fine','categories' => $categories];
         return response()->json($response);
     }
     public function get_all_category(){
 
         $categories = Categories::where('status', 'active')
         ->select('id', 'title', 'nav_id','main_img','alt_name')
-        ->where('sorting', '!=', '0') // Replace $someValue with the value you want to exclude
+        ->where('main_page','listed') // Replace $someValue with the value you want to exclude
         ->orderBy('sorting', 'asc') // Order by sorting in ascending order
         ->get();
 
