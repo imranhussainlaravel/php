@@ -25,7 +25,7 @@ Route::post('/toggleCategory', [AdminController::class, 'toggleCategory']);
 Route::post('/toggleproduct', [AdminController::class, 'toggleproduct']);
 Route::post('/create_product', [AdminController::class, 'create_product']);
 Route::post('/delete_product', [AdminController::class, 'delete_product']);
-Route::post('/get_category_product', [AdminController::class, 'get_category_product']);
+Route::get('/get_category_product', [AdminController::class, 'get_category_product']);
 
 Route::get('/get_all_forms', [AdminController::class, 'get_all_forms']);
 Route::post('/changeformstatus', [AdminController::class, 'changeformstatus']);
