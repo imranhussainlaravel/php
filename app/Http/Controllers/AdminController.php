@@ -82,28 +82,62 @@ class AdminController extends Controller
         if(!empty($validatedData['id'])){
 
             $category = Categories::find($validatedData['id']);
-            $category->title = $validatedData['title'];
-            $category->description = $validatedData['description'];
-            $category->nav_id = $validatedData['nav_id'];
-            $category->header_img = $validatedData['header_img'];
-            $category->main_img = $validatedData['main_img'] ;
-            $category->icon = $validatedData['icon'];
-            $category->content = $validatedData['content'];
-            // $category->faqs = $validatedData['faqs'];
-            $category->alt_name = $validatedData['alt_name'];
-            $category->status = $validatedData['status'];
-            $category->main_page = $validatedData['main_page'];
-            $category->sorting = 0;
-            $category->save();
 
-            $response = [
-                'message' => 'categories Updated sucessfully.',
-                'category' => $category,
-                'status' => 200
-            ];
+            if ($category) {
+                $imageFields = ['header_img', 'main_img', 'icon'];
+            
+                foreach ($imageFields as $field) {
+                    $oldImage = $category->$field;
+                    $newImage = $validatedData[$field] ?? null; // Avoid undefined index error
+        
+                    // Check if the old image exists and is being replaced with a new one
+                    if (!empty($oldImage) && !empty($newImage) && $oldImage !== $newImage) {
+                        $relativePath = str_replace(asset('/'), '', $oldImage);
+                        $filePath = public_path($relativePath);
+        
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+        
+                    // Assign the new image only if it's not empty
+                    if (!empty($newImage)) {
+                        $category->$field = $newImage;
+                    }
+                }
+            
+                $category->title = $validatedData['title'];
+                $category->description = $validatedData['description'];
+                $category->nav_id = $validatedData['nav_id'];
+                // $category->header_img = $validatedData['header_img'];
+                // $category->main_img = $validatedData['main_img'] ;
+                // $category->icon = $validatedData['icon'];
+                $category->content = $validatedData['content'];
+                // $category->faqs = $validatedData['faqs'];
+                $category->alt_name = $validatedData['alt_name'];
+                $category->status = $validatedData['status'];
+                $category->main_page = $validatedData['main_page'];
+                $category->sorting = 0;
+                $category->save();
+
+                $response = [
+                    'message' => 'categories Updated sucessfully.',
+                    'category' => $category,
+                    'status' => 200
+                ];
+        
+                return response()->json($response);
     
-            return response()->json($response);
+            } else {
+                // Return error if category is not found
+                return response()->json([
+                    'message' => 'Category not found.',
+                    'status' => 404
+                ]);
+            }
 
+
+            
         } else {
             $category = new Categories();
             $category->title = $validatedData['title'];
