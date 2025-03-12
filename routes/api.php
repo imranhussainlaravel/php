@@ -43,6 +43,9 @@ Route::post('/deletePortfolio', [AdminController::class, 'deletePortfolio']);
 
 Route::post('/deleteimages', [AdminController::class, 'deleteimages']);
 
+Route::post('/sort_the_categories', [AdminController::class, 'sort_the_categories']);
+
+
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
 // Route::middleware('check.origin')->group(function () {
 //     Route::get('/get_industry', [CategoryController::class, 'get_industry']);

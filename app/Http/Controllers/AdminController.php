@@ -864,5 +864,18 @@ class AdminController extends Controller
         ];
         return response()->json($response);
     }
+    public function sort_the_categories(Request $request)
+    {
+        $request->validate([
+            'sort_array' => 'required|array', // Ensure it's an array
+        ]);
+
+        foreach ($request->sort_array as $index => $id) {
+            Category::where('id', $id)->update(['sorting' => $index + 1]);
+        }
+
+        return response()->json(['message' => 'Categories sorted successfully','success' => true]);
+    }
+
 }
 
