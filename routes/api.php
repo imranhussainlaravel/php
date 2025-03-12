@@ -44,6 +44,7 @@ Route::post('/deletePortfolio', [AdminController::class, 'deletePortfolio']);
 Route::post('/deleteimages', [AdminController::class, 'deleteimages']);
 
 Route::post('/sort_the_categories', [AdminController::class, 'sort_the_categories']);
+Route::get('/get_unread_status', [AdminController::class, 'get_unread_status']);
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');

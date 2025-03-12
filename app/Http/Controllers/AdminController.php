@@ -876,6 +876,17 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Categories sorted successfully','success' => true]);
     }
+    public function get_unread_status()
+    {
+        $hasUnread = RequestModel::where('status', 'unread')->exists(); // Check if any row has 'unread' status
+    
+        return response()->json([
+            'message' => 'Checked unread status successfully',
+            'success' => true,
+            'unread' => $hasUnread, // true if at least one 'unread' status exists, otherwise false
+        ]);
+    }
+    
 
 }
 
