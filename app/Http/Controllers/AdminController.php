@@ -540,7 +540,7 @@ class AdminController extends Controller
     
         $from = RequestModel::find($form_id);
 
-        $from->status = 'read';
+        $from->status = $from->status === 'read' ? 'unread' : 'read';
         $from->save(); 
 
         return response()->json([
