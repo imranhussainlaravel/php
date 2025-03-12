@@ -642,7 +642,7 @@ class AdminController extends Controller
             return response()->json(['message' => 'Blog not found','status' => 200], 404);
         }
 
-        $url = $blog->$image;
+        $url = $blog->image;
         $relativePath = str_replace(asset('/'), '', $url);
         $filePath = public_path($relativePath);
 
