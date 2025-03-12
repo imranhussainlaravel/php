@@ -145,7 +145,7 @@ class AdminController extends Controller
             $category->nav_id = $validatedData['nav_id'];
             $category->header_img = $validatedData['header_img'];
             $category->main_img = $validatedData['main_img'] ;
-            $category->icon = $validatedData['icon'];
+            $category->icon = $validatedData['icon'] ?? "";
             $category->content = $validatedData['content'];
             // $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
