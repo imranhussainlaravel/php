@@ -343,7 +343,7 @@ class AdminController extends Controller
             // 'image_2'      => $validatedData['image_2'] ?? "",
             // 'image_3'      => $validatedData['image_3'] ?? "",
             // 'image_4'      => $validatedData['image_4'] ?? "",
-            'image_5'      => $validatedData['image_5'] ?? "",
+            // 'image_5'      => $validatedData['image_5'] ?? "",
             'status'       => $validatedData['status'] ?? "active",
         ];
 
@@ -388,6 +388,18 @@ class AdminController extends Controller
         
                     // Update the product data with new image
                     $productData[$imageKey] = $imageUrl;
+                }
+
+                if (!empty($product->image_5) && !empty($validatedData['image_5']) && $product->image_5 !== $validatedData['image_5']) {
+                    $relativePath = str_replace(asset('/'), '', $product->image_5);
+                    $filePath = public_path($relativePath);
+    
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+                if (!empty($validatedData['image_5'])) {
+                    $productData->$image_5 = $validatedData['image_5'];
                 }
             } else {
                 // If it's a new product, just assign images
