@@ -772,7 +772,7 @@ class AdminController extends Controller
             return response()->json(['message' => 'Portfolio not found','status' => 200], 404);
         }
 
-        $url = $portfolio->$image;
+        $url = $portfolio->image;
         $relativePath = str_replace(asset('/'), '', $url);
         $filePath = public_path($relativePath);
 
