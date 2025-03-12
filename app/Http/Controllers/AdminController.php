@@ -347,16 +347,52 @@ class AdminController extends Controller
             'status'       => $validatedData['status'] ?? "active",
         ];
 
+        // if (!empty($validatedData['images'])) {
+        //     foreach ($validatedData['images'] as $index => $imageUrl) {
+        //         if ($index == 0) {
+        //             $productData['image_1'] = $imageUrl;
+        //         } elseif ($index == 1) {
+        //             $productData['image_2'] = $imageUrl;
+        //         } elseif ($index == 2) {
+        //             $productData['image_3'] = $imageUrl;
+        //         } elseif ($index == 3) {
+        //             $productData['image_4'] = $imageUrl;
+        //         }
+        //     }
+        // }
         if (!empty($validatedData['images'])) {
-            foreach ($validatedData['images'] as $index => $imageUrl) {
-                if ($index == 0) {
-                    $productData['image_1'] = $imageUrl;
-                } elseif ($index == 1) {
-                    $productData['image_2'] = $imageUrl;
-                } elseif ($index == 2) {
-                    $productData['image_3'] = $imageUrl;
-                } elseif ($index == 3) {
-                    $productData['image_4'] = $imageUrl;
+            if (!empty($validatedData['id'])) {
+                $product = Products::findOrFail($validatedData['id']);
+        
+                // Existing product images
+                $oldImages = [
+                    'image_1' => $product->image_1,
+                    'image_2' => $product->image_2,
+                    'image_3' => $product->image_3,
+                    'image_4' => $product->image_4,
+                ];
+        
+                // Loop through images and assign them
+                foreach ($validatedData['images'] as $index => $imageUrl) {
+                    $imageKey = 'image_' . ($index + 1);
+        
+                    // Delete old image if it's not in the new images array
+                    if (!empty($oldImages[$imageKey]) && !in_array($oldImages[$imageKey], $validatedData['images'])) {
+                        $relativePath = str_replace(asset('/'), '', $oldImages[$imageKey]);
+                        $filePath = public_path($relativePath);
+        
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+        
+                    // Update the product data with new image
+                    $productData[$imageKey] = $imageUrl;
+                }
+            } else {
+                // If it's a new product, just assign images
+                foreach ($validatedData['images'] as $index => $imageUrl) {
+                    $productData['image_' . ($index + 1)] = $imageUrl;
                 }
             }
         }
@@ -420,18 +456,19 @@ class AdminController extends Controller
         ], 200);
     }
     public function admin_get_products() {
-        $products = Products::all()->map(function ($product) {
+        $products = Products::orderBy('id', 'desc')->get()->map(function ($product) {
             $product->images = array_filter([
                 $product->image_1,
                 $product->image_2,
                 $product->image_3,
                 $product->image_4
             ]); // Removes null/empty values
-    
+        
             unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
-    
+        
             return $product;
         });
+        
     
         $response = [
             'products' => $products, // Use modified products
