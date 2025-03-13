@@ -80,7 +80,7 @@ class CategoryController extends Controller
         // Fetch category based on ID from the JSON request
         $category = Categories::where('id', $request->id)
             ->where('status', 'active')
-            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id')
+            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content')
             ->first();
 
         $productModel = new Product();
@@ -114,7 +114,7 @@ class CategoryController extends Controller
 
         $product = Product::where('id', $request->id)
         ->where('status', 'active')
-        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content','title_2','description_2')
         ->first();
 
         return response()->json([
