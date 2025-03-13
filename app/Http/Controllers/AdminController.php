@@ -871,7 +871,7 @@ class AdminController extends Controller
         ]);
 
         foreach ($request->sort_array as $index => $id) {
-            Category::where('id', $id)->update(['sorting' => $index + 1]);
+            Categories::where('id', $id)->update(['sorting' => $index + 1]);
         }
 
         return response()->json(['message' => 'Categories sorted successfully','success' => true,'status' => 200]);
