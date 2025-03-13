@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmailController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -46,6 +47,7 @@ Route::post('/deleteimages', [AdminController::class, 'deleteimages']);
 Route::post('/sort_the_categories', [AdminController::class, 'sort_the_categories']);
 Route::get('/get_unread_status', [AdminController::class, 'get_unread_status']);
 
+Route::get('/sendEmail', [EmailController::class, 'sendEmail']);
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
 // Route::middleware('check.origin')->group(function () {

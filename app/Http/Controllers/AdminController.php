@@ -874,7 +874,7 @@ class AdminController extends Controller
             Category::where('id', $id)->update(['sorting' => $index + 1]);
         }
 
-        return response()->json(['message' => 'Categories sorted successfully','success' => true]);
+        return response()->json(['message' => 'Categories sorted successfully','success' => true,'status' => 200]);
     }
     public function get_unread_status()
     {
@@ -883,6 +883,7 @@ class AdminController extends Controller
         return response()->json([
             'message' => 'Checked unread status successfully',
             'success' => true,
+            'status' => 200,
             'unread' => $hasUnread, // true if at least one 'unread' status exists, otherwise false
         ]);
     }

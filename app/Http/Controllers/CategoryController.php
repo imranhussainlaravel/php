@@ -49,6 +49,7 @@ class CategoryController extends Controller
             'material' => $nav2,
             'style' => $nav3,
             'message' => 'Categories found.',
+            'status' => 200,
         ];
         return response()->json($response);
     }
@@ -62,7 +63,8 @@ class CategoryController extends Controller
 
         $response = [
             'categories' => $categories,
-            'message' => 'working fine'
+            'message' => 'working fine',
+            'status' => 200,
         ];
 
         return response()->json($response);
@@ -101,6 +103,7 @@ class CategoryController extends Controller
         return response()->json([
             'category' => $category,
             'products' => $products,
+            'status' => 200,
             'message' => 'Category found successfully'
         ]);
     }
@@ -119,6 +122,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'product' => $product,
+            'status' => 200,
             'message' => 'Category found successfully'
         ]);
     }
