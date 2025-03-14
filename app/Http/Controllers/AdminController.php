@@ -49,7 +49,8 @@ class AdminController extends Controller
     }
     public function admin_get_categories(){
         
-        $categories = Categories::all();
+        $categories = Categories::orderBy('sorting', 'asc') // Order by sorting in ascending order
+        ->get();
         // ->select('id', 'title', 'icon', 'nav_id')
         // ->select('id', 'title', 'nav_id','main_img','alt_name','icon','header_img','content','description')
         
