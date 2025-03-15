@@ -407,6 +407,7 @@ class AdminController extends Controller
                 foreach ($validatedData['images'] as $index => $imageUrl) {
                     $productData['image_' . ($index + 1)] = $imageUrl;
                 }
+                $productData = $validatedData['image_5'];
             }
         }
     
