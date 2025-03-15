@@ -73,14 +73,15 @@ class CategoryController extends Controller
     public function get_category_by_id(Request $request)
     {
         // Validate the incoming request
-        $id = $request->input('id');
+        // $id = $request->input('id');
+        $title = $request->input('title');
 
-        if (!$id) {
-            return response()->json(['message' => 'ID is required'], 400);
+        if (!$title) {
+            return response()->json(['message' => 'Title is required'], 400);
         }
 
         // Fetch category based on ID from the JSON request
-        $category = Categories::where('id', $request->id)
+        $category = Categories::where('title', $title)
             ->where('status', 'active')
             ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content')
             ->first();
@@ -109,13 +110,14 @@ class CategoryController extends Controller
     }
     public function get_product_by_id(Request $request)
     {
-        $id = $request->input('id');
+        // $id = $request->input('id');
+        $title = $request->input('title');
 
-        if (!$id) {
-            return response()->json(['message' => 'ID is required'], 400);
+        if (!$title) {
+            return response()->json(['message' => 'Title is required'], 400);
         }
 
-        $product = Product::where('id', $request->id)
+        $product = Product::where('title', $title)
         ->where('status', 'active')
         ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content','title_2','description_2')
         ->first();
