@@ -113,7 +113,7 @@ class AdminController extends Controller
                 // $category->header_img = $validatedData['header_img'];
                 // $category->main_img = $validatedData['main_img'] ;
                 // $category->icon = $validatedData['icon'];
-                $category->content = $validatedData['content'];
+                $category->content = $validatedData['content'] ?? '';
                 // $category->faqs = $validatedData['faqs'];
                 $category->alt_name = $validatedData['alt_name'];
                 $category->status = $validatedData['status'];
