@@ -400,7 +400,7 @@ class AdminController extends Controller
                     }
                 }
                 if (!empty($validatedData['image_5'])) {
-                    $productData->$image_5 = $validatedData['image_5'];
+                    $productData['image_5'] = $validatedData['image_5'];
                 }
             } else {
                 // If it's a new product, just assign images
