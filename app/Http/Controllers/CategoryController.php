@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 use App\Models\Product;
+use App\Models\Blog;
+use App\Models\Portfolio;
+use App\Models\Request as RequestModel; 
 
 
 class CategoryController extends Controller
@@ -148,7 +151,11 @@ class CategoryController extends Controller
         ]);
     }
     public function get_portfolio(){
-        
+        $portfolios = Portfolio::all();
+        return response()->json([
+            'status' => 200,
+            'portfolios' => $portfolios
+        ]);
     }
 
 }
