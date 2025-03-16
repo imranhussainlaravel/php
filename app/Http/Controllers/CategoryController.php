@@ -75,6 +75,7 @@ class CategoryController extends Controller
         // Validate the incoming request
         // $id = $request->input('id');
         $title = $request->input('title');
+        $title = str_replace('-', ' ', $title);
 
         if (!$title) {
             return response()->json(['message' => 'Title is required'], 400);
@@ -112,7 +113,7 @@ class CategoryController extends Controller
     {
         // $id = $request->input('id');
         $title = $request->input('title');
-
+        $title = str_replace('-', ' ', $title);
         if (!$title) {
             return response()->json(['message' => 'Title is required'], 400);
         }
