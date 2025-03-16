@@ -157,5 +157,15 @@ class CategoryController extends Controller
             'portfolios' => $portfolios
         ]);
     }
+    public function get_all_blogs(){
+        $blogs = Blog::where('status', 'active') // Only active blogs
+        ->orderBy('sorting', 'asc') // Sorting
+        ->get(['id', 'title', 'image']); // Fetch only title and image
+
+        return response()->json([
+        'status' => 200,
+        'blogs' => $blogs
+        ]);
+    }
 
 }
