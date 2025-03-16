@@ -72,14 +72,16 @@ class CategoryController extends Controller
     }
     public function get_category_by_id(Request $request)
     {
-        // Validate the incoming request
-        // $id = $request->input('id');
-        $title = $request->input('id');
-        $title = str_replace('-', ' ', $title);
+        
+        $data = $request->json()->all();
+
+        // Extract the 'id' field
+        $title = $data['id'] ?? null;
 
         if (!$title) {
             return response()->json(['message' => 'Title is required'], 400);
         }
+        $title = str_replace('-', ' ', $title);
 
         // Fetch category based on ID from the JSON request
         $category = Categories::where('title', $title)
@@ -111,12 +113,14 @@ class CategoryController extends Controller
     }
     public function get_product_by_id(Request $request)
     {
-        // $id = $request->input('id');
-        $title = $request->input('id');
-        $title = str_replace('-', ' ', $title);
+        $data = $request->json()->all();
+
+        // Extract the 'id' field
+        $title = $data['id'] ?? null;
         if (!$title) {
             return response()->json(['message' => 'Title is required'], 400);
         }
+        $title = str_replace('-', ' ', $title);
 
         $product = Product::where('title', $title)
         ->where('status', 'active')
