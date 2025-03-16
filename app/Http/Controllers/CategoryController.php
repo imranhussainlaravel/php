@@ -130,6 +130,17 @@ class CategoryController extends Controller
         ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content','title_2','description_2')
         ->first();
 
+        $product->images = array_filter([
+            $product->image_1,
+            $product->image_2,
+            $product->image_3,
+            $product->image_4
+        ]); // Removes null/empty values
+    
+        unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
+    
+        return $product;
+
         return response()->json([
             'product' => $product,
             'status' => 200,
