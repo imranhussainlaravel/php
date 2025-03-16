@@ -167,7 +167,7 @@ class CategoryController extends Controller
         'blogs' => $blogs
         ]);
     }
-    public function get_blog_detail_with_id(){
+    public function get_blog_detail_with_id(Request $request){
         $id = $request->json('id');
     
         $blog = Blog::find($id);
