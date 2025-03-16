@@ -167,5 +167,19 @@ class CategoryController extends Controller
         'blogs' => $blogs
         ]);
     }
+    public function get_blog_detail_with_id(){
+        $id = $request->json('id');
+    
+        $blog = Blog::find($id);
+
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found','status' => 200], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'blog' => $blog // Returns title, image, content, etc.
+        ]);
+    }
 
 }

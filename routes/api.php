@@ -16,6 +16,7 @@ Route::post('/get_category_by_id', [CategoryController::class, 'get_category_by_
 Route::post('/get_product_by_id', [CategoryController::class, 'get_product_by_id']);
 Route::get('/get_portfolio',[CategoryController::class, 'get_portfolio']);
 Route::get('/get_all_blogs',[CategoryController::class, 'get_all_blogs']);
+Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_detail_with_id']);
 
 
 
