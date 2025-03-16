@@ -79,7 +79,7 @@ class CategoryController extends Controller
         $title = $data['id'] ?? null;
 
         if (!$title) {
-            return response()->json(['message' => 'Title is required'], 400);
+            return response()->json(['message' => 'Title is required','status'=>'200'], 400);
         }
         $title = str_replace('-', ' ', $title);
 
@@ -88,6 +88,9 @@ class CategoryController extends Controller
             ->where('status', 'active')
             ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content')
             ->first();
+        if (empty($category)) {
+            return response()->json(['message' => 'Category not found','status'=>'200'], 400);
+        }
 
         $productModel = new Product();
         $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
