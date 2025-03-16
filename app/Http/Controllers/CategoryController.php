@@ -127,7 +127,7 @@ class CategoryController extends Controller
 
         $product = Product::where('title', $title)
         ->where('status', 'active')
-        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4', 'alt_name','content','title_2','description_2')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2')
         ->first();
 
         $product->images = array_filter([
