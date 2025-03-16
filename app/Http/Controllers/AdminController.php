@@ -191,8 +191,16 @@ class AdminController extends Controller
                 ], 400);
             }
     
-            // Create image resource
-            $image = @imagecreatefromstring($decodedImage);
+            $finfo = finfo_open();
+            $mimeType = finfo_buffer($finfo, $decodedImage, FILEINFO_MIME_TYPE);
+            finfo_close($finfo);
+    
+            // **Create an image resource based on type**
+            if ($mimeType === 'image/png') {
+                $image = imagecreatefrompng($decodedImage);
+            } else {
+                    $image = @imagecreatefromstring($decodedImage);
+            }
             if (!$image) {
                 return response()->json([
                     'image_url' => '',

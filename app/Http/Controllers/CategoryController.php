@@ -147,5 +147,8 @@ class CategoryController extends Controller
             'message' => 'Category found successfully'
         ]);
     }
+    public function get_portfolio(){
+        
+    }
 
 }
