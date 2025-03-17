@@ -268,11 +268,11 @@ class EmailController extends Controller
                 .button {
                     display: inline-block;
                     background-color: #f0644b;
-                    color: #ffffff;
+                    color: #ffffff !important;
                     padding: 12px 20px;
                     font-size: 18px;
                     font-weight: bold;
-                    text-decoration: none;
+                    text-decoration: none !important;
                     border-radius: 6px;
                     margin-top: 20px;
                     transition: 0.3s;
