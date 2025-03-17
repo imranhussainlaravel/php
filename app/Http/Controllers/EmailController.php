@@ -216,7 +216,7 @@ class EmailController extends Controller
             <style>
                 body {
                     font-family: Arial, sans-serif;
-                    background-color: #000;
+                    background-color: #ccc;
                     color: #fff;
                     text-align: center;
                     padding: 0;
@@ -225,16 +225,16 @@ class EmailController extends Controller
                 .email-container {
                     max-width: 600px;
                     margin: 20px auto;
-                    background: #111;
+                    background: #e0e0e0;
                     border-radius: 8px;
-                    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
                     padding: 20px;
                     text-align: center;
                 }
                 h1 {
                     font-size: 48px;
                     font-weight: bold;
-                    color: #3c6fb1;
+                    color: #f0644b;
                     margin-bottom: 20px;
                     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
                 }
@@ -243,6 +243,7 @@ class EmailController extends Controller
                     margin: 20px 0;
                     text-align: center;
                     line-height: 1.6;
+                    color: #333;
                 }
                 .details {
                     text-align: left;
@@ -252,7 +253,7 @@ class EmailController extends Controller
                     padding: 20px;
                     border-radius: 8px;
                     max-width: 550px;
-                    box-shadow: 0px 2px 8px rgba(255,255,255,0.1);
+                    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
                 }
                 .details .field {
                     margin-bottom: 15px;
@@ -262,11 +263,11 @@ class EmailController extends Controller
                     color: #4CAF50;
                 }
                 .button-container {
-                    text-align: center; /* Ensures centering */
+                    text-align: center; 
                 }
                 .button {
                     display: inline-block;
-                    background-color: #3c6fb1;
+                    background-color: #f0644b;
                     color: #ffffff;
                     padding: 12px 20px;
                     font-size: 18px;
@@ -277,12 +278,19 @@ class EmailController extends Controller
                     transition: 0.3s;
                 }
                 .button:hover {
-                    background-color: #2a4f7b;
+                    background-color: #d9534f;
                 }
                 .footer {
                     margin-top: 30px;
                     font-size: 14px;
-                    color: #bbb;
+                    color: #333;
+                }
+                .footer a {
+                    color: #f0644b;
+                    text-decoration: none;
+                }
+                .footer a:hover {
+                    text-decoration: underline;
                 }
                 @media screen and (max-width: 480px) {
                     .email-container {
@@ -328,7 +336,7 @@ class EmailController extends Controller
                             </div>
 
                             <div class='footer'>
-                                <p>Need help? <a href='mailto:sales@nexonpackaging.com' style='color: #4CAF50;'>Email Support</a></p>
+                                <p>Need help? <a href='mailto:sales@nexonpackaging.com'>Email Support</a></p>
                             </div>
                         </div>
                     </td>
@@ -337,6 +345,7 @@ class EmailController extends Controller
         </body>
         </html>
         ";
+
 
         $teamemail = 'sales@nexonpackaging.com';
         $teamsubject = 'New Custom Quote by customer';
