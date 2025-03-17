@@ -181,5 +181,18 @@ class CategoryController extends Controller
             'blog' => $blog // Returns title, image, content, etc.
         ]);
     }
+    public function get_sliders_products(Request $request){
+        $productModel = new Product();
+        $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
+            ->where('status', 'active')
+            ->limit(7) // Get only 7 products
+            ->get(); // Execute the query
+
+            return response()->json([
+                'status' => 200,
+                'product' => $product // Returns title, image, content, etc.
+            ]);
+
+    }
 
 }
