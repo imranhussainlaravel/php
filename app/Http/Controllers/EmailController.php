@@ -229,6 +229,7 @@ class EmailController extends Controller
                     border-radius: 8px;
                     box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
                     padding: 20px;
+                    text-align: center;
                 }
                 h1 {
                     font-size: 48px;
@@ -260,6 +261,9 @@ class EmailController extends Controller
                 .details .field strong {
                     color: #4CAF50;
                 }
+                .button-container {
+                    text-align: center; /* Ensures centering */
+                }
                 .button {
                     display: inline-block;
                     background-color: #3c6fb1;
@@ -280,7 +284,6 @@ class EmailController extends Controller
                     font-size: 14px;
                     color: #bbb;
                 }
-                /* Responsive Design */
                 @media screen and (max-width: 480px) {
                     .email-container {
                         padding: 15px;
@@ -305,24 +308,32 @@ class EmailController extends Controller
             </style>
         </head>
         <body>
-            <div class='email-container'>
-                <h1>Thank you.</h1>
-                <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
+            <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+                <tr>
+                    <td align='center'>
+                        <div class='email-container'>
+                            <h1>Thank You.</h1>
+                            <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
 
-                <div class='details'>
-                    <div class='field'><strong>Product Name:</strong> <span style='font-weight:bold;'>{$details['product_name']}</span></div>
-                    <div class='field'><strong>Quantity:</strong> {$details['quantity']}</div>
-                    <div class='field'><strong>Color:</strong> {$details['color']}</div>
-                    <div class='field'><strong>Dimensions:</strong> {$details['length']} x {$details['width']} x {$details['depth']} ({$details['measurement_unit']})</div>
-                    <div class='field'><strong>Description:</strong> {$details['description']}</div>
-                </div>
+                            <div class='details'>
+                                <div class='field'><strong>Product Name:</strong> <span style='font-weight:bold;'>{$details['product_name']}</span></div>
+                                <div class='field'><strong>Quantity:</strong> {$details['quantity']}</div>
+                                <div class='field'><strong>Color:</strong> {$details['color']}</div>
+                                <div class='field'><strong>Dimensions:</strong> {$details['length']} x {$details['width']} x {$details['depth']} ({$details['measurement_unit']})</div>
+                                <div class='field'><strong>Description:</strong> {$details['description']}</div>
+                            </div>
 
-                <a href='https://nexonpackaging.com' class='button'>Contact Us</a>
+                            <div class='button-container'>
+                                <a href='https://nexonpackaging.com' class='button'>Contact Us</a>
+                            </div>
 
-                <div class='footer'>
-                    <p>Need help? <a href='mailto:sales@nexonpackaging.com' style='color: #4CAF50;'>Email Support</a></p>
-                </div>
-            </div>
+                            <div class='footer'>
+                                <p>Need help? <a href='mailto:sales@nexonpackaging.com' style='color: #4CAF50;'>Email Support</a></p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </body>
         </html>
         ";
