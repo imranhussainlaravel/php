@@ -363,4 +363,34 @@ class EmailController extends Controller
         }
 
     }
+    public function contact_us(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'description' => 'nullable',    
+        ]);
+
+       
+
+        RequestModel::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'product_name' => '',
+            'quantity' => '',
+            'color' => '',
+            'measurements' => '',
+            'description' => $request->description,
+        ]);
+
+        $response = [
+            'message' => 'Contact details send successfully.',
+            'status' => 200,
+            'success' => true,
+        ];
+       
+
+    }
 }
