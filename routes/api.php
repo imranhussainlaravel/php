@@ -54,6 +54,7 @@ Route::get('/get_unread_status', [AdminController::class, 'get_unread_status']);
 
 Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
 Route::post('/contact_us', [EmailController::class, 'contact_us']);
+Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
 // Route::middleware('check.origin')->group(function () {

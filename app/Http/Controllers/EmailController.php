@@ -415,4 +415,29 @@ class EmailController extends Controller
        
 
     }
+    public function subscribe_us(Request $request){
+        $request->validate([
+            'email' => 'required',
+        ]);
+
+       
+
+        RequestModel::create([
+            'name' => 'name',
+            'email' => '',
+            'phone' => '',
+            'product_name' => '',
+            'quantity' => '',
+            'color' => '',
+            'measurements' => '',
+            'description' => '',
+        ]);
+
+        $response = [
+            'message' => 'Contact details send successfully.',
+            'status' => 200,
+            'success' => true,
+        ];
+       
+    }
 }
