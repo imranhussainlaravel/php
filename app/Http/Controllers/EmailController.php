@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Request as RequestModel;
+use Illuminate\Support\Facades\Mail;
+
 
 class EmailController extends Controller
 {
