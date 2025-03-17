@@ -214,21 +214,22 @@ class EmailController extends Controller
         <head>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <style>
-                body, table, td {
+                body {
                     font-family: Arial, sans-serif;
                     background-color: #000;
                     color: #fff;
                     text-align: center;
-                    margin: 0;
                     padding: 0;
+                    margin: 0;
                 }
-                table {
+                .email-container {
                     max-width: 600px;
-                    margin: auto;
+                    margin: 20px auto;
                     background: #111;
                     border-radius: 8px;
                     box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
                     padding: 20px;
+                    text-align: center;
                 }
                 h1 {
                     font-size: 48px;
@@ -236,7 +237,6 @@ class EmailController extends Controller
                     color: #3c6fb1;
                     margin-bottom: 20px;
                     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-                    text-align: center;
                 }
                 p {
                     font-size: 18px;
@@ -263,7 +263,6 @@ class EmailController extends Controller
                 }
                 .button-container {
                     text-align: center; /* Ensures centering */
-                    padding: 20px 0;
                 }
                 .button {
                     display: inline-block;
@@ -276,7 +275,6 @@ class EmailController extends Controller
                     border-radius: 6px;
                     margin-top: 20px;
                     transition: 0.3s;
-                    text-align: center;
                 }
                 .button:hover {
                     background-color: #2a4f7b;
@@ -285,11 +283,9 @@ class EmailController extends Controller
                     margin-top: 30px;
                     font-size: 14px;
                     color: #bbb;
-                    text-align: center;
                 }
                 @media screen and (max-width: 480px) {
-                    table {
-                        width: 90%;
+                    .email-container {
                         padding: 15px;
                     }
                     h1 {
@@ -312,57 +308,35 @@ class EmailController extends Controller
             </style>
         </head>
         <body>
-            <table width='100%' border='0' cellspacing='0' cellpadding='0' align='center'>
+            <table width='100%' border='0' cellspacing='0' cellpadding='0'>
                 <tr>
                     <td align='center'>
-                        <table width='600' border='0' cellspacing='0' cellpadding='20' align='center'>
-                            <tr>
-                                <td align='center'>
-                                    <h1>Thank You.</h1>
-                                    <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align='center'>
-                                    <table class='details' width='100%' cellpadding='10' cellspacing='0' border='0' align='center'>
-                                        <tr>
-                                            <td><strong>Product Name:</strong> <span style='font-weight:bold;'>{$details['product_name']}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Quantity:</strong> {$details['quantity']}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Color:</strong> {$details['color']}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Dimensions:</strong> {$details['length']} x {$details['width']} x {$details['depth']} ({$details['measurement_unit']})</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Description:</strong> {$details['description']}</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align='center'>
-                                    <div class='button-container'>
-                                        <a href='https://nexonpackaging.com' class='button'>Contact Us</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align='center' class='footer'>
-                                    <p>Need help? <a href='mailto:sales@nexonpackaging.com' style='color: #4CAF50;'>Email Support</a></p>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class='email-container'>
+                            <h1>Thank You.</h1>
+                            <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
+
+                            <div class='details'>
+                                <div class='field'><strong>Product Name:</strong> <span style='font-weight:bold;'>{$details['product_name']}</span></div>
+                                <div class='field'><strong>Quantity:</strong> {$details['quantity']}</div>
+                                <div class='field'><strong>Color:</strong> {$details['color']}</div>
+                                <div class='field'><strong>Dimensions:</strong> {$details['length']} x {$details['width']} x {$details['depth']} ({$details['measurement_unit']})</div>
+                                <div class='field'><strong>Description:</strong> {$details['description']}</div>
+                            </div>
+
+                            <div class='button-container'>
+                                <a href='https://nexonpackaging.com' class='button'>Contact Us</a>
+                            </div>
+
+                            <div class='footer'>
+                                <p>Need help? <a href='mailto:sales@nexonpackaging.com' style='color: #4CAF50;'>Email Support</a></p>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </table>
         </body>
         </html>
         ";
-
 
         $teamemail = 'sales@nexonpackaging.com';
         $teamsubject = 'New Custom Quote by customer';
