@@ -424,7 +424,7 @@ class EmailController extends Controller
 
         RequestModel::create([
             'name' => 'name',
-            'email' => '',
+            'email' => $request->email,
             'phone' => '',
             'product_name' => '',
             'quantity' => '',
