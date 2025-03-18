@@ -196,11 +196,11 @@ class AdminController extends Controller
             finfo_close($finfo);
     
             // **Create an image resource based on type**
-            if ($mimeType === 'image/png') {
-                $image = imagecreatefrompng($decodedImage);
-            } else {
+            // if ($mimeType === 'image/png') {
+            //     $image = imagecreatefrompng($decodedImage);
+            // } else {
                     $image = @imagecreatefromstring($decodedImage);
-            }
+            // }
             if (!$image) {
                 return response()->json([
                     'image_url' => '',
