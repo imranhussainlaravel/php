@@ -400,10 +400,10 @@ class EmailController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'product_name' => '',
-            'quantity' => '',
-            'color' => '',
-            'measurements' => '',
+            'product_name' => 'n/a',
+            'quantity' => 'n/a',
+            'color' => 'n/a',
+            'measurements' => 'n/a',
             'description' => $request->description,
         ]);
 
