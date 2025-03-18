@@ -428,7 +428,6 @@ class EmailController extends Controller
             'email' => $request->email,
             'phone' => '',
             'product_name' => '',
-            'quantity' => '',
             'color' => '',
             'measurements' => '',
             'description' => '',
