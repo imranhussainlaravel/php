@@ -412,6 +412,7 @@ class EmailController extends Controller
             'status' => 200,
             'success' => true,
         ];
+        return response()->json($response);
        
 
     }
@@ -439,5 +440,6 @@ class EmailController extends Controller
             'success' => true,
         ];
        
+        return response()->json($response);
     }
 }
