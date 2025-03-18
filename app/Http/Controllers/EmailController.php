@@ -401,7 +401,7 @@ class EmailController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'product_name' => 'n/a',
-            'quantity' => 'n/a',
+            'quantity' => '0',
             'color' => 'n/a',
             'measurements' => 'n/a',
             'description' => $request->description,
