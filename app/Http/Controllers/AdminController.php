@@ -72,6 +72,7 @@ class AdminController extends Controller
             'header_img' => 'nullable',  
             'main_img' => 'nullable',  
             'icon' => 'nullable', 
+            'meta_description' => 'nullable', 
             'alt_name' => 'nullable',
             'content' => 'nullable',
             // 'faqs' => 'nullable',
@@ -114,6 +115,7 @@ class AdminController extends Controller
                 // $category->main_img = $validatedData['main_img'] ;
                 // $category->icon = $validatedData['icon'];
                 $category->content = $validatedData['content'] ?? '';
+                $category->content = $validatedData['meta_description'] ?? '';
                 // $category->faqs = $validatedData['faqs'];
                 $category->alt_name = $validatedData['alt_name'];
                 $category->status = $validatedData['status'];
@@ -148,6 +150,7 @@ class AdminController extends Controller
             $category->main_img = $validatedData['main_img'] ;
             $category->icon = $validatedData['icon'] ?? "";
             $category->content = $validatedData['content'] ?? '';
+            $category->content = $validatedData['meta_description'] ?? '';
             // $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
@@ -323,6 +326,7 @@ class AdminController extends Controller
             'alt_name'     => 'nullable|max:255',
             'description'  => 'nullable',
             'description_2' => 'nullable',
+            'meta_description' => 'nullable', 
             // 'faqs'         => 'nullable',
             'content'      => 'nullable',
             'industry_id'  => 'nullable|integer',
@@ -343,6 +347,7 @@ class AdminController extends Controller
             'alt_name'     => $validatedData['alt_name'] ?? "",
             'description'  => $validatedData['description'],
             'description_2' => $validatedData['description_2'] ?? "",
+            'meta_description' => $validatedData['meta_description'] ?? "",
             // 'faqs'         => $validatedData['faqs'] ?? "",
             'content'      => $validatedData['content'] ?? "",
             'industry_id'  => $validatedData['industry_id']?? "0",
@@ -578,6 +583,7 @@ class AdminController extends Controller
             'title' => 'required',
             'image' => 'required',
             'content' => 'nullable|string',
+            'meta_description' => 'nullable',
             'sorting' => 'nullable|integer',
             'status' => 'nullable|in:active,inactive',
         ]);
@@ -590,6 +596,7 @@ class AdminController extends Controller
             'title' => $request->title,
             'image' => $request->image,
             'content' => $request->content,
+            'meta_description' => $request->meta_description,
             'sorting' => $request->sorting ?? 0,
             'status' => $request->status ?? 'active',
         ];
