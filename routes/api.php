@@ -56,6 +56,10 @@ Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
 Route::post('/contact_us', [EmailController::class, 'contact_us']);
 Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
 
+Route::get('/force_delete_all_categories', [AdminController::class, 'force_delete_all_categories']);
+Route::get('/force_delete_all_products', [AdminController::class, 'force_delete_all_products']);
+
+
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');
 // Route::middleware('check.origin')->group(function () {
 //     Route::get('/get_industry', [CategoryController::class, 'get_industry']);
