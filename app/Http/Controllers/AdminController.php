@@ -913,48 +913,41 @@ class AdminController extends Controller
             'status' => 200
         ]);
     }
-    // public function force_delete_category(Request $request) {
-    //     $categoryId = $request->json('id');
+    public function force_delete_all_categories() {
+        // Get all soft-deleted categories
+        $categories = Categories::onlyTrashed()->get();
     
-    //     if (!$categoryId) {
-    //         return response()->json([
-    //             'message' => 'Category ID is required.',
-    //             'status' => 400
-    //         ]);
-    //     }
+        if ($categories->isEmpty()) {
+            return response()->json([
+                'message' => 'No soft-deleted categories found.',
+                'status' => 404
+            ]);
+        }
     
-    //     $category = Categories::withTrashed()->find($categoryId);
+        foreach ($categories as $category) {
+            $imageFields = ['header_img', 'main_img', 'icon'];
     
-    //     if (!$category) {
-    //         return response()->json([
-    //             'message' => 'Category not found.',
-    //             'status' => 404
-    //         ]);
-    //     }
+            foreach ($imageFields as $field) {
+                if (!empty($category->$field)) {
+                    $url = $category->$field;
+                    $relativePath = str_replace(asset('/'), '', $url);
+                    $filePath = public_path($relativePath);
     
-    //     $imageFields = ['header_img', 'main_img', 'icon'];
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+            }
     
-    //     foreach ($imageFields as $field) {
-    //         if (!empty($category->$field)) {
-    //             $url = $category->$field;
-    //             $relativePath = str_replace(asset('/'), '', $url);
-    //             $filePath = public_path($relativePath);
+            // Permanently delete the category
+            $category->forceDelete();
+        }
     
-    //             if (file_exists($filePath)) {
-    //                 unlink($filePath);
-    //             }
-    //         }
-    //     }
-    
-    //     // Permanently delete the category
-    //     $category->forceDelete();
-    
-    //     return response()->json([
-    //         'message' => 'Category and associated images permanently deleted.',
-    //         'status' => 200
-    //     ]);
-    // }
-    
+        return response()->json([
+            'message' => 'All soft-deleted categories and associated images permanently deleted.',
+            'status' => 200
+        ]);
+    }
 
 }
 
