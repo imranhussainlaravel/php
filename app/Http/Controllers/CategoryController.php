@@ -97,6 +97,7 @@ class CategoryController extends Controller
 
         $productModel = new Product();
         $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
+        ->whereNull('deleted_at')
         ->where('status', 'active'); // Common condition
 
         if ($category->nav_id == '1') {
