@@ -97,7 +97,8 @@ class CategoryController extends Controller
 
         $productModel = new Product();
         $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
-        ->where('status', 'active'); // Common condition
+        ->where('status', 'active') // Common condition
+        ->withoutTrashed();
 
         if ($category->nav_id == '1') {
             $query->where('industry_id', $category->id);
