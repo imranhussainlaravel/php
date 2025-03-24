@@ -115,7 +115,7 @@ class AdminController extends Controller
                 // $category->main_img = $validatedData['main_img'] ;
                 // $category->icon = $validatedData['icon'];
                 $category->content = $validatedData['content'] ?? '';
-                $category->content = $validatedData['meta_description'] ?? '';
+                $category->meta_description  = $validatedData['meta_description'] ?? '';
                 // $category->faqs = $validatedData['faqs'];
                 $category->alt_name = $validatedData['alt_name'];
                 $category->status = $validatedData['status'];
@@ -150,7 +150,7 @@ class AdminController extends Controller
             $category->main_img = $validatedData['main_img'] ;
             $category->icon = $validatedData['icon'] ?? "";
             $category->content = $validatedData['content'] ?? '';
-            $category->content = $validatedData['meta_description'] ?? '';
+            $category->meta_description  = $validatedData['meta_description'] ?? '';
             // $category->faqs = $validatedData['faqs'];
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
