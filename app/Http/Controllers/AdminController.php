@@ -260,8 +260,8 @@ class AdminController extends Controller
         if (!$categoryId) {
             return response()->json([
                 'message' => 'Category ID is required.',
-                'status' => 200
-            ], 400);
+                'status' => 400
+            ]);
         }
     
         $category = Categories::find($categoryId);
@@ -269,32 +269,18 @@ class AdminController extends Controller
         if (!$category) {
             return response()->json([
                 'message' => 'Category not found.',
-                'status' => 200
-            ], 404);
+                'status' => 404
+            ]);
         }
     
-        $imageFields = ['header_img', 'main_img', 'icon'];
-    
-        foreach ($imageFields as $field) {
-            if (!empty($category->$field)) {
-
-                $url = $category->$field;
-                $relativePath = str_replace(asset('/'), '', $url);
-                $filePath = public_path($relativePath);
-        
-                if (file_exists($filePath)) {
-                    unlink($filePath); 
-                }
-            }
-        }
-    
+        // Soft delete the category
         $category->delete();
     
         return response()->json([
-            'message' => 'Category and associated images deleted successfully.',
+            'message' => 'Category deleted successfully (soft delete).',
             'status' => 200
-        ], 200);
-    }
+        ]);
+    }    
     public function toggleCategory(Request $request) 
     {  
         $request->validate([ 
@@ -447,41 +433,29 @@ class AdminController extends Controller
     
         if (!$productid) {
             return response()->json([
-                'message' => 'Category ID is required.',
-                'status' => 200
-            ], 400);
+                'message' => 'Product ID is required.',
+                'status' => 400
+            ]);
         }
     
         $product = Products::find($productid);
     
         if (!$product) {
             return response()->json([
-                'message' => 'Category not found.',
-                'status' => 200
-            ], 404);
+                'message' => 'Product not found.',
+                'status' => 404
+            ]);
         }
     
-        $imageFields = ['image_1', 'image_2', 'image_3' , 'image_4', 'image_5'];
-    
-        foreach ($imageFields as $field) {
-            if (!empty($product->$field)) {
-                $url = $product->$field;
-                $relativePath = str_replace(asset('/'), '', $url);
-                $filePath = public_path($relativePath);
-        
-                if (file_exists($filePath)) {
-                    unlink($filePath); 
-                }
-            }
-        }
-    
+        // Soft delete the product
         $product->delete();
     
         return response()->json([
-            'message' => 'Product and associated images deleted successfully.',
+            'message' => 'Product deleted successfully (soft delete).',
             'status' => 200
-        ], 200);
+        ]);
     }
+    
     public function admin_get_products() {
         $products = Products::orderBy('id', 'desc')->get()->map(function ($product) {
             $product->images = array_filter([
@@ -904,6 +878,82 @@ class AdminController extends Controller
             'unread' => $hasUnread, // true if at least one 'unread' status exists, otherwise false
         ]);
     }
+
+    // public function force_delete_all_products() {
+    //     $products = Products::onlyTrashed()->get();
+    
+    //     if ($products->isEmpty()) {
+    //         return response()->json([
+    //             'message' => 'No soft-deleted products found.',
+    //             'status' => 404
+    //         ]);
+    //     }
+    
+    //     foreach ($products as $product) {
+    //         $imageFields = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5'];
+    
+    //         foreach ($imageFields as $field) {
+    //             if (!empty($product->$field)) {
+    //                 $url = $product->$field;
+    //                 $relativePath = str_replace(asset('/'), '', $url);
+    //                 $filePath = public_path($relativePath);
+    
+    //                 if (file_exists($filePath)) {
+    //                     unlink($filePath);
+    //                 }
+    //             }
+    //         }
+    
+    //         // Permanently delete the product
+    //         $product->forceDelete();
+    //     }
+    
+    //     return response()->json([
+    //         'message' => 'All soft-deleted products and their associated images permanently deleted.',
+    //         'status' => 200
+    //     ]);
+    // }
+    // public function force_delete_category(Request $request) {
+    //     $categoryId = $request->json('id');
+    
+    //     if (!$categoryId) {
+    //         return response()->json([
+    //             'message' => 'Category ID is required.',
+    //             'status' => 400
+    //         ]);
+    //     }
+    
+    //     $category = Categories::withTrashed()->find($categoryId);
+    
+    //     if (!$category) {
+    //         return response()->json([
+    //             'message' => 'Category not found.',
+    //             'status' => 404
+    //         ]);
+    //     }
+    
+    //     $imageFields = ['header_img', 'main_img', 'icon'];
+    
+    //     foreach ($imageFields as $field) {
+    //         if (!empty($category->$field)) {
+    //             $url = $category->$field;
+    //             $relativePath = str_replace(asset('/'), '', $url);
+    //             $filePath = public_path($relativePath);
+    
+    //             if (file_exists($filePath)) {
+    //                 unlink($filePath);
+    //             }
+    //         }
+    //     }
+    
+    //     // Permanently delete the category
+    //     $category->forceDelete();
+    
+    //     return response()->json([
+    //         'message' => 'Category and associated images permanently deleted.',
+    //         'status' => 200
+    //     ]);
+    // }
     
 
 }
