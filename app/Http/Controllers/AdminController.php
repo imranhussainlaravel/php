@@ -879,40 +879,40 @@ class AdminController extends Controller
         ]);
     }
 
-    // public function force_delete_all_products() {
-    //     $products = Products::onlyTrashed()->get();
+    public function force_delete_all_products() {
+        $products = Products::onlyTrashed()->get();
     
-    //     if ($products->isEmpty()) {
-    //         return response()->json([
-    //             'message' => 'No soft-deleted products found.',
-    //             'status' => 404
-    //         ]);
-    //     }
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => 'No soft-deleted products found.',
+                'status' => 404
+            ]);
+        }
     
-    //     foreach ($products as $product) {
-    //         $imageFields = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5'];
+        foreach ($products as $product) {
+            $imageFields = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5'];
     
-    //         foreach ($imageFields as $field) {
-    //             if (!empty($product->$field)) {
-    //                 $url = $product->$field;
-    //                 $relativePath = str_replace(asset('/'), '', $url);
-    //                 $filePath = public_path($relativePath);
+            foreach ($imageFields as $field) {
+                if (!empty($product->$field)) {
+                    $url = $product->$field;
+                    $relativePath = str_replace(asset('/'), '', $url);
+                    $filePath = public_path($relativePath);
     
-    //                 if (file_exists($filePath)) {
-    //                     unlink($filePath);
-    //                 }
-    //             }
-    //         }
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+            }
     
-    //         // Permanently delete the product
-    //         $product->forceDelete();
-    //     }
+            // Permanently delete the product
+            $product->forceDelete();
+        }
     
-    //     return response()->json([
-    //         'message' => 'All soft-deleted products and their associated images permanently deleted.',
-    //         'status' => 200
-    //     ]);
-    // }
+        return response()->json([
+            'message' => 'All soft-deleted products and their associated images permanently deleted.',
+            'status' => 200
+        ]);
+    }
     // public function force_delete_category(Request $request) {
     //     $categoryId = $request->json('id');
     
