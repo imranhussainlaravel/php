@@ -186,6 +186,7 @@ class CategoryController extends Controller
         $productModel = new Product();
         $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
             ->where('status', 'active')
+            ->whereNull('deleted_at')
             ->limit(7) // Get only 7 products
             ->get(); // Execute the query
 
