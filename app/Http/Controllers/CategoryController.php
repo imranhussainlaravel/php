@@ -271,4 +271,24 @@ class CategoryController extends Controller
             'data' => $products
         ], 200);
     }
+    public function get_all_category_for_seo()
+    {
+        $categories = Categories::orderBy('sorting', 'asc')->get();
+
+        // Convert FAQs to JSON format if they are not empty
+        $categories->transform(function ($category) {
+            if (!empty($category->faqs)) {
+                $category->faqs = json_decode($category->faqs, true);
+            }
+            return $category;
+        });
+
+        return response()->json([
+            'categories' => $categories,
+            'message' => 'categories found.',
+            'status' => 200,
+        ]);
+    }
+
+
 }

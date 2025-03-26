@@ -20,6 +20,7 @@ Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_de
 Route::post('/get_sliders_products', [CategoryController::class, 'get_sliders_products']);
 
 Route::get('/getAllProducts', [CategoryController::class, 'getAllProducts']);
+Route::get('/get_all_category_for_seo', [CategoryController::class, 'get_all_category_for_seo']);
 
 
 Route::post('/login_user', [AdminController::class, 'login_user']);
