@@ -225,7 +225,7 @@ class CategoryController extends Controller
 
         $searchWords = !empty($filteredWords) ? $filteredWords : $words;
 
-        $exactMatches = Product::where('name', 'LIKE', "%{$query}%")
+        $exactMatches = Product::where('title', 'LIKE', "%{$query}%")
         ->select('id', 'title', 'image_1','alt_name') // Select specific columns
         ->whereNull('deleted_at')
         ->where('status', 'active')
