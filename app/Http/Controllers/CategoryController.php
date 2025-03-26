@@ -235,13 +235,19 @@ class CategoryController extends Controller
             foreach ($searchWords as $word) {
                 $q->orWhere('title', 'LIKE', "%{$word}%");
             }
-        })->get();
+        })->select('id', 'title', 'image_1','alt_name') // Select specific columns
+        ->whereNull('deleted_at')
+        ->where('status', 'active')
+        ->get();
 
         $partialMatches = Product::where(function ($q) use ($searchWords) {
             foreach ($searchWords as $word) {
                 $q->orWhere('title', 'LIKE', "%{$word}%");
             }
-        })->get();
+        })->select('id', 'title', 'image_1','alt_name') // Select specific columns
+        ->whereNull('deleted_at')
+        ->where('status', 'active')
+        ->get();
 
         $mergedResults = collect($exactMatches)
             ->merge($reverseMatches)
