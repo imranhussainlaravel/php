@@ -233,13 +233,13 @@ class CategoryController extends Controller
 
         $reverseMatches = Product::where(function ($q) use ($searchWords) {
             foreach ($searchWords as $word) {
-                $q->orWhere('name', 'LIKE', "%{$word}%");
+                $q->orWhere('title', 'LIKE', "%{$word}%");
             }
         })->get();
 
         $partialMatches = Product::where(function ($q) use ($searchWords) {
             foreach ($searchWords as $word) {
-                $q->orWhere('name', 'LIKE', "%{$word}%");
+                $q->orWhere('title', 'LIKE', "%{$word}%");
             }
         })->get();
 
