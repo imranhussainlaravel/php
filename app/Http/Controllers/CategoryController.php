@@ -277,6 +277,9 @@ class CategoryController extends Controller
 
         // Convert FAQs to JSON format if they are not empty
         $categories->transform(function ($category) {
+
+            $category->title = strtolower(str_replace(' ', '-', $category->title));
+
             $category->faqs = !empty($category->faqs) ? json_decode($category->faqs, true) : [];
             return $category;
         });
