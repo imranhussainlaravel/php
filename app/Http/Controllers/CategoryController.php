@@ -243,24 +243,28 @@ class CategoryController extends Controller
     }
     public function getAllProducts()
     {
-        $product = Product::all(); 
+        $products = Product::all(); 
 
-        if (!empty($product->faqs)) {
-            $decodedFaqs = json_decode($product->faqs, true);
-            $product->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
-        } else {
-            $product->faqs = [];
+        foreach ($products as $product) {
+            // Decode `faqs` only if it's not empty
+            if (!empty($product->faqs)) {
+                $decodedFaqs = json_decode($product->faqs, true);
+                $product->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
+            } else {
+                $product->faqs = [];
+            }
+    
+            // Collect images and remove empty values
+            $product->images = array_filter([
+                $product->image_1,
+                $product->image_2,
+                $product->image_3,
+                $product->image_4
+            ]);
+    
+            // Remove individual image columns
+            unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
         }
-        $product->images = array_filter([
-            $product->image_1,
-            $product->image_2,
-            $product->image_3,
-            $product->image_4
-        ]); // Removes null/empty values
-    
-        unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
-    
-        return $product;
 
         return response()->json([
             'success' => true,
