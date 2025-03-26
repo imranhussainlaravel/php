@@ -19,6 +19,7 @@ Route::get('/get_all_blogs',[CategoryController::class, 'get_all_blogs']);
 Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_detail_with_id']);
 Route::post('/get_sliders_products', [CategoryController::class, 'get_sliders_products']);
 
+Route::post('/getAllProducts', [CategoryController::class, 'getAllProducts']);
 
 
 Route::post('/login_user', [AdminController::class, 'login_user']);
@@ -58,6 +59,8 @@ Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
 
 Route::get('/force_delete_all_categories', [AdminController::class, 'force_delete_all_categories']);
 Route::get('/force_delete_all_products', [AdminController::class, 'force_delete_all_products']);
+
+
 
 
 // Route::get('/get_industry', [CategoryController::class, 'get_industry'])->middleware('check.origin');

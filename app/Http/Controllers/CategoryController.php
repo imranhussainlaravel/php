@@ -209,5 +209,45 @@ class CategoryController extends Controller
             ]);
 
     }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
 
+        if (!$query) {
+            return response()->json(['error' => 'Search query is required'], 400);
+        }
+
+        $words = explode(' ', $query);
+
+        $exactMatches = Product::where('name', 'LIKE', "%{$query}%")->get();
+
+        $reverseMatches = Product::where(function ($q) use ($words) {
+            foreach ($words as $word) {
+                $q->orWhere('name', 'LIKE', "%{$word}%");
+            }
+        })->get();
+
+        $partialMatches = Product::where(function ($q) use ($words) {
+            foreach ($words as $word) {
+                $q->orWhere('name', 'LIKE', "%{$word}%");
+            }
+        })->get();
+
+        $mergedResults = collect($exactMatches)
+            ->merge($reverseMatches)
+            ->merge($partialMatches)
+            ->unique('id')
+            ->values(); 
+
+        return response()->json($mergedResults);
+    }
+    public function getAllProducts()
+    {
+        $products = Product::all(); 
+
+        return response()->json([
+            'success' => true,
+            'data' => $products
+        ], 200);
+    }
 }
