@@ -255,7 +255,17 @@ class CategoryController extends Controller
             ->unique('id')
             ->values();
 
-        return response()->json($mergedResults);
+        if ($mergedResults->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found for the given search query.',
+                'data' => []
+            ], 200);
+        }
+    
+        return response()->json([
+            'message' => 'Products found successfully.',
+            'data' => $mergedResults
+        ], 200);
     }
     public function getAllProducts()
     {
