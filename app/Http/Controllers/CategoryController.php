@@ -95,6 +95,11 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Category not found','status'=>'200'], 400);
         }
 
+        if (!empty($category->faqs)) {
+            $decodedFaqs = json_decode($category->faqs, true);
+            $category->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
+        }
+        
         $productModel = new Product();
         $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
         ->whereNull('deleted_at')
