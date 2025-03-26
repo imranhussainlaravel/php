@@ -211,7 +211,7 @@ class CategoryController extends Controller
     }
     public function search(Request $request)
     {
-        $query = trim($request->json('query'));
+        $query = trim($request->json('search'));
 
         if (!$query) {
             return response()->json(['error' => 'Search query is required'], 400);
