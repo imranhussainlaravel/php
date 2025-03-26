@@ -211,24 +211,30 @@ class CategoryController extends Controller
     }
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = trim($request->input('query'));
 
         if (!$query) {
             return response()->json(['error' => 'Search query is required'], 400);
         }
 
+        $commonWords = ['custom', 'boxes', 'box', 'packaging'];
+
         $words = explode(' ', $query);
+
+        $filteredWords = array_diff($words, $commonWords);
+
+        $searchWords = !empty($filteredWords) ? $filteredWords : $words;
 
         $exactMatches = Product::where('name', 'LIKE', "%{$query}%")->get();
 
-        $reverseMatches = Product::where(function ($q) use ($words) {
-            foreach ($words as $word) {
+        $reverseMatches = Product::where(function ($q) use ($searchWords) {
+            foreach ($searchWords as $word) {
                 $q->orWhere('name', 'LIKE', "%{$word}%");
             }
         })->get();
 
-        $partialMatches = Product::where(function ($q) use ($words) {
-            foreach ($words as $word) {
+        $partialMatches = Product::where(function ($q) use ($searchWords) {
+            foreach ($searchWords as $word) {
                 $q->orWhere('name', 'LIKE', "%{$word}%");
             }
         })->get();
@@ -237,7 +243,7 @@ class CategoryController extends Controller
             ->merge($reverseMatches)
             ->merge($partialMatches)
             ->unique('id')
-            ->values(); 
+            ->values();
 
         return response()->json($mergedResults);
     }
