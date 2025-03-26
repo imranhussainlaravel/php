@@ -19,6 +19,8 @@ Route::get('/get_all_blogs',[CategoryController::class, 'get_all_blogs']);
 Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_detail_with_id']);
 Route::post('/get_sliders_products', [CategoryController::class, 'get_sliders_products']);
 
+Route::post('/search', [CategoryController::class, 'search']);
+
 Route::get('/getAllProducts', [CategoryController::class, 'getAllProducts']);
 Route::get('/get_all_category_for_seo', [CategoryController::class, 'get_all_category_for_seo']);
 
