@@ -89,7 +89,7 @@ class CategoryController extends Controller
         // Fetch category based on ID from the JSON request
         $category = Categories::where('title', $title)
             ->where('status', 'active')
-            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description')
+            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description','faqs')
             ->first();
         if (empty($category)) {
             return response()->json(['message' => 'Category not found','status'=>'200'], 400);
