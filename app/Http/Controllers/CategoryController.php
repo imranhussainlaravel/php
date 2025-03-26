@@ -138,9 +138,15 @@ class CategoryController extends Controller
 
         $product = Product::where('title', $title)
         ->where('status', 'active')
-        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description','faqs')
         ->first();
 
+        if (!empty($product->faqs)) {
+            $decodedFaqs = json_decode($product->faqs, true);
+            $product->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
+        } else {
+            $product->faqs = [];
+        }
         $product->images = array_filter([
             $product->image_1,
             $product->image_2,
