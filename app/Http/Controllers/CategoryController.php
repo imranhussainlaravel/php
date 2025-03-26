@@ -98,8 +98,10 @@ class CategoryController extends Controller
         if (!empty($category->faqs)) {
             $decodedFaqs = json_decode($category->faqs, true);
             $category->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
+        } else {
+            $category->faqs = [];
         }
-        
+
         $productModel = new Product();
         $query = $productModel->select('id', 'title', 'image_1','alt_name') // Select specific columns
         ->whereNull('deleted_at')
