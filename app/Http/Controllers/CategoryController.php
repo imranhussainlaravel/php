@@ -247,6 +247,7 @@ class CategoryController extends Controller
 
         foreach ($products as $product) {
             // Decode `faqs` only if it's not empty
+            $product->title = strtolower(str_replace(' ', '-', $product->title));
             if (!empty($product->faqs)) {
                 $decodedFaqs = json_decode($product->faqs, true);
                 $product->faqs = is_array($decodedFaqs) ? $decodedFaqs : [];
