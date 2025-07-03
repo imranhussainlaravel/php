@@ -17,6 +17,7 @@ class Products extends Model
         'alt_name',
         'description',
         'description_2',
+        'meta_description',
         'faqs',
         'content',
         'industry_id',
