@@ -30,6 +30,7 @@ Route::get('/admin_get_categories', [AdminController::class, 'admin_get_categori
 Route::get('/admin_get_products', [AdminController::class, 'admin_get_products']);
 Route::post('/create_category', [AdminController::class, 'create_category']);
 Route::post('/saved_image', [AdminController::class, 'saved_image']);
+Route::post('/saveDocument', [AdminController::class, 'saveDocument']);
 Route::post('/delete_category', [AdminController::class, 'delete_category']);
 Route::post('/toggleCategory', [AdminController::class, 'toggleCategory']);
 Route::post('/toggleproduct', [AdminController::class, 'toggleproduct']);

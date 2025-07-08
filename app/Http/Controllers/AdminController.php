@@ -254,6 +254,102 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+
+    public function saveDocument(Request $request)
+    {
+        $base64Data = $request->input('file');
+
+        if (!$base64Data || !str_contains($base64Data, 'base64,')) {
+            return response()->json([
+                'file_url' => '',
+                'message' => 'Invalid base64 format.',
+                'status' => 400
+            ]);
+        }
+
+        try {
+            // Extract mime type from base64 string
+            preg_match('/^data:(.*);base64,/', $base64Data, $matches);
+            $mimeType = $matches[1] ?? null;
+            $base64Str = explode('base64,', $base64Data)[1];
+
+            if (!$mimeType) {
+                return response()->json([
+                    'file_url' => '',
+                    'message' => 'MIME type not found.',
+                    'status' => 400
+                ]);
+            }
+
+            // Get extension from mime type
+            $extension = explode('/', $mimeType)[1] ?? null;
+
+            // Clean up extension for complex types like docx, xlsx
+            $mimeMap = [
+                'vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+                'msword' => 'doc',
+                'vnd.ms-excel' => 'xls',
+                'vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+                'plain' => 'txt',
+                'pdf' => 'pdf',
+                'png' => 'png',
+                'jpeg' => 'jpg',
+                'jpg' => 'jpg',
+                'webp' => 'webp',
+                'gif' => 'gif'
+            ];
+
+            if (isset($mimeMap[$extension])) {
+                $extension = $mimeMap[$extension];
+            }
+
+            if (!$extension) {
+                return response()->json([
+                    'file_url' => '',
+                    'message' => 'Unsupported or unknown file type: ' . $mimeType,
+                    'status' => 400
+                ]);
+            }
+
+            // Decode base64
+            $decodedFile = base64_decode($base64Str);
+            if (!$decodedFile) {
+                return response()->json([
+                    'file_url' => '',
+                    'message' => 'Failed to decode file.',
+                    'status' => 400
+                ]);
+            }
+
+            // Ensure directory exists
+            $directory = public_path('images/documents');
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Save file
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
+            $filePath = $directory . '/' . $fileName;
+            file_put_contents($filePath, $decodedFile);
+
+            // Return the file URL
+            return response()->json([
+                'file_url' => asset('images/documents/' . $fileName),
+                'message' => 'File uploaded successfully.',
+                'status' => 200
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'file_url' => '',
+                'message' => 'Server error: ' . $e->getMessage(),
+                'status' => 500
+            ]);
+        }
+    }
+
+
     public function delete_category(Request $request) {
         $categoryId = $request->json('id');
     
