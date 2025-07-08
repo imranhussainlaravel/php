@@ -57,6 +57,7 @@ Route::post('/deleteimages', [AdminController::class, 'deleteimages']);
 Route::post('/sort_the_categories', [AdminController::class, 'sort_the_categories']);
 Route::get('/get_unread_status', [AdminController::class, 'get_unread_status']);
 
+Route::post('/beatmyquote', [EmailController::class, 'beatmyquote']);
 Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
 Route::post('/contact_us', [EmailController::class, 'contact_us']);
 Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
