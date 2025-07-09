@@ -486,7 +486,7 @@ class EmailController extends Controller
             'quantity' => $request->quantity,
             'color' => $request->color,
             'measurements' => $measurementString,
-            'description' => $request->combinedDescription,
+            'description' => $combinedDescription,
         ]);
 
         
