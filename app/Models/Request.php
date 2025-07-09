@@ -9,5 +9,5 @@ class Request extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'phone','product_name', 'quantity', 'measurements','description','type'];
+    protected $fillable = ['name', 'email', 'phone','product_name', 'quantity', 'measurements','description','type','url'];
 }
