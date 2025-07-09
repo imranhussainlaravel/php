@@ -460,6 +460,7 @@ class EmailController extends Controller
             'quote_details' => 'nullable',
             'delivery_charges' => 'nullable',
             'othercharges' => 'nullable',
+            'url' => 'nullable',
         ]);
 
         $measurements = array_filter([
@@ -485,6 +486,7 @@ class EmailController extends Controller
             'product_name' => $request->product_name,
             'quantity' => $request->quantity,
             'color' => $request->color,
+            'url' => $request->url,
             'measurements' => $measurementString,
             'description' => $combinedDescription,
         ]);
