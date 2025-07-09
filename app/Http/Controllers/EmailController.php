@@ -475,9 +475,9 @@ class EmailController extends Controller
         }
 
         $combinedDescription = 'description: ' . ($request->description ?? '') .
-                       ', quote_details: ' . ($request->quote_details ?? '') .
-                       ', delivery_charges: ' . ($request->delivery_charges ?? 0) .
-                       ', othercharges: ' . ($request->othercharges ?? 0);
+                       ', -----quote_details: ' . ($request->quote_details ?? '') .
+                       ', -----delivery_charges: ' . ($request->delivery_charges ?? 0) .
+                       ', -----othercharges: ' . ($request->othercharges ?? 0);
 
         RequestModel::create([
             'name' => $request->name,
