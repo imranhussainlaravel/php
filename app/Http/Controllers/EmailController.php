@@ -23,6 +23,8 @@ class EmailController extends Controller
             'depth' => 'nullable',
             'measurement_unit' => 'nullable',
             'description' => 'nullable',
+            'url' => 'nullable',
+
           
         ]);
 
@@ -46,6 +48,7 @@ class EmailController extends Controller
             'color' => $request->color,
             'measurements' => $measurementString,
             'description' => $request->description,
+            'url' => $request->url,
         ]);
 
         
