@@ -199,10 +199,13 @@ class CategoryController extends Controller
 
         $productModel = new Product();
         if ($request->type === 'beat-my-quote') {
+           $ids = [40, 47, 48, 45, 49];
+
             $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
-                ->whereIn('id', [40, 47, 48, 45, 49])
+                ->whereIn('id', $ids)
                 ->where('status', 'active')
                 ->whereNull('deleted_at')
+                ->orderByRaw('FIELD(id, ' . implode(',', $ids) . ')')
                 ->get();
         } else {
             $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
