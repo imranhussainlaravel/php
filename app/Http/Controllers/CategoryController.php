@@ -196,13 +196,21 @@ class CategoryController extends Controller
         ]);
     }
     public function get_sliders_products(Request $request){
-        $productModel = new Product();
-        $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
-            ->where('status', 'active')
-            ->whereNull('deleted_at')
-            ->limit(7) // Get only 7 products
-            ->get(); // Execute the query
 
+        $productModel = new Product();
+        if ($request->type === 'beat-my-quote') {
+            $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
+                ->whereIn('id', [40, 47, 48, 45, 49])
+                ->where('status', 'active')
+                ->whereNull('deleted_at')
+                ->get();
+        } else {
+            $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
+                ->where('status', 'active')
+                ->whereNull('deleted_at')
+                ->limit(7) // Get only 7 products
+                ->get(); // Execute the query
+        }
             return response()->json([
                 'status' => 200,
                 'product' => $product // Returns title, image, content, etc.
