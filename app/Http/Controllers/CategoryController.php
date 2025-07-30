@@ -199,7 +199,7 @@ class CategoryController extends Controller
 
         $productModel = new Product();
         if ($request->type === 'beat-my-quote') {
-           $ids = [40, 47, 48, 45, 49];
+           $ids = [40, 47, 48, 50, 49];
 
             $product = $productModel->select('id', 'title', 'image_1', 'alt_name')
                 ->whereIn('id', $ids)
