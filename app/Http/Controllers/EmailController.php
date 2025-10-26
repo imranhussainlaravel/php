@@ -212,10 +212,9 @@ class EmailController extends Controller
         </body>
         </html>
         ";     
-        $htmlContent = "
+        $htmlContent = '
         <html>
         <head>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <style>
                 body {
                     font-family: Arial, sans-serif;
@@ -235,11 +234,12 @@ class EmailController extends Controller
                     text-align: center;
                 }
                 h1 {
-                    font-size: 48px;
-                    font-weight: bold;
+                    font-family: "Kaushan Script", cursive;
+                    font-size: 4em;
+                    letter-spacing: 3px;
                     color: #f0644b;
+                    margin: 0;
                     margin-bottom: 20px;
-                    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
                 }
                 p {
                     font-size: 18px;
@@ -247,38 +247,41 @@ class EmailController extends Controller
                     text-align: center;
                     line-height: 1.6;
                     color: #333;
+                    font-weight: bold;
                 }
                 .details {
                     text-align: left;
                     margin: 20px auto;
-                    background-color: #fff;
+                    background-color: #e0e0e0;
                     color: #000;
                     padding: 20px;
                     border-radius: 8px;
                     max-width: 550px;
-                    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+                    box-shadow: 1px 3px 10px rgba(0,0,0,0.5);
                 }
                 .details .field {
                     margin-bottom: 15px;
                     font-size: 16px;
                 }
                 .details .field strong {
-                    color: #4CAF50;
+                    color: #873d08ff;
                 }
                 .button-container {
-                    text-align: center; 
+                    text-align: center;
                 }
                 .button {
                     display: inline-block;
+                    color: #ffffff;
                     background-color: #f0644b;
-                    color: #ffffff !important;
-                    padding: 12px 20px;
                     font-size: 18px;
                     font-weight: bold;
+                    border: none;
+                    padding: 10px 20px;
+                    margin: 10px 0;
+                    border-radius: 30px;
+                    text-transform: capitalize;
+                    box-shadow: 0 6px 10px 1px rgba(250, 137, 133, 1);
                     text-decoration: none !important;
-                    border-radius: 6px;
-                    margin-top: 20px;
-                    transition: 0.3s;
                 }
                 .button:hover {
                     background-color: #d9534f;
@@ -319,35 +322,42 @@ class EmailController extends Controller
             </style>
         </head>
         <body>
-            <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td align='center'>
-                        <div class='email-container'>
-                            <h1>Thank You.</h1>
-                            <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
-
-                            <div class='details'>
-                                <div class='field'><strong>Product Name:</strong> <span style='font-weight:bold;'>{$details['product_name']}</span></div>
-                                <div class='field'><strong>Quantity:</strong> {$details['quantity']}</div>
-                                <div class='field'><strong>Color:</strong> {$details['color']}</div>
-                                <div class='field'><strong>Dimensions:</strong> {$details['length']} x {$details['width']} x {$details['depth']} ({$details['measurement_unit']})</div>
-                                <div class='field'><strong>Description:</strong> {$details['description']}</div>
+                    <td align="center">
+                        <div class="email-container">
+                            <div style="text-align:center; padding-top:5px;">
+                                <img src="https://images.nexonpackaging.com/newsociallogo.png" alt="Nexon Packaging Logo" width="100" style="max-width:100%; height:auto; display:inline-block;">
                             </div>
 
-                            <div class='button-container'>
-                                <a href='https://nexonpackaging.com' class='button'>Contact Us</a>
-                            </div>
+        ```
+                        <h1>Thank You!</h1>
+                        <p>We have received your details and will get back to you soon. Below is the information you provided:</p>
 
-                            <div class='footer'>
-                                <p>Need help? <a href='mailto:sales@nexonpackaging.com'>Email Support</a></p>
-                            </div>
+                        <div class="details">
+                            <div class="field"><strong>Product Name:</strong> <span style="font-weight:bold;">'.$details["product_name"].'</span></div>
+                            <div class="field"><strong>Quantity:</strong> '.$details["quantity"].'</div>
+                            <div class="field"><strong>Color:</strong> '.$details["color"].'</div>
+                            <div class="field"><strong>Dimensions:</strong> '.$details["length"].' x '.$details["width"].' x '.$details["depth"].' ('.$details["measurement_unit"].')</div>
+                            <div class="field"><strong>Description:</strong> '.$details["description"].'</div>
                         </div>
-                    </td>
-                </tr>
-            </table>
+
+                        <div class="button-container">
+                            <a href="https://nexonpackaging.com/contact" class="button" style="text-decoration:none !important;">Contact Us</a>
+                        </div>
+
+                        <div class="footer">
+                            <p>Need help? <a href="mailto:sales@nexonpackaging.com">Email Support</a></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        ```
+
         </body>
-        </html>
-        ";
+        </html>';
+
 
 
         $teamemail = 'sales@nexonpackaging.com';
