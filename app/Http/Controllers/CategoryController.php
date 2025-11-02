@@ -165,7 +165,7 @@ class CategoryController extends Controller
         ]);
     }
     public function get_portfolio(){
-        $portfolios = Portfolio::all();
+       $portfolios = Portfolio::orderBy('id', 'desc')->get();
         return response()->json([
             'status' => 200,
             'portfolios' => $portfolios
