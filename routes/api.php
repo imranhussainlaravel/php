@@ -57,10 +57,15 @@ Route::post('/deleteimages', [AdminController::class, 'deleteimages']);
 Route::post('/sort_the_categories', [AdminController::class, 'sort_the_categories']);
 Route::get('/get_unread_status', [AdminController::class, 'get_unread_status']);
 
-Route::post('/beatmyquote', [EmailController::class, 'beatmyquote']);
-Route::post('/sendEmail', [EmailController::class, 'sendEmail']);
-Route::post('/contact_us', [EmailController::class, 'contact_us']);
-Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
+// ── Secured form endpoints ─────────────────────────────────────────────────
+// Layers: origin validation → 3 req/10 min per IP → Turnstile CAPTCHA
+Route::middleware(['check.origin', 'throttle:3,10', 'verify.turnstile'])
+    ->group(function () {
+        Route::post('/sendEmail',    [EmailController::class, 'sendEmail']);
+        Route::post('/contact_us',   [EmailController::class, 'contact_us']);
+        Route::post('/beatmyquote',  [EmailController::class, 'beatmyquote']);
+        Route::post('/subscribe_us', [EmailController::class, 'subscribe_us']);
+    });
 
 Route::get('/force_delete_all_categories', [AdminController::class, 'force_delete_all_categories']);
 Route::get('/force_delete_all_products', [AdminController::class, 'force_delete_all_products']);

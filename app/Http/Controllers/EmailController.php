@@ -11,10 +11,15 @@ class EmailController extends Controller
 {
     public function sendEmail(Request $request)
     {
+        // Honeypot: bots fill hidden fields, real users never do
+        if ($request->filled('website')) {
+            return response()->json(['message' => 'Request submitted.', 'success' => true], 200);
+        }
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email:rfc,dns',
+            'phone' => 'required|string|max:30',
             'product_name' => 'nullable',
             'quantity' => 'nullable',
             'color' => 'nullable',
@@ -52,19 +57,20 @@ class EmailController extends Controller
         ]);
 
         
+        // HTML-escape all user input before embedding in email templates
         $details = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'subject' => 'New Custom Quote Request',
-            'phone' => $request->phone,
-            'product_name' => $request->product_name ?? 'N/A', // Handle null values
-            'quantity' => $request->quantity ?? 'N/A',
-            'color' => $request->color ?? 'N/A',
-            'length' => $request->length ?? 'N/A',
-            'width' => $request->width ?? 'N/A',
-            'depth' => $request->depth ?? 'N/A',
-            'measurement_unit' => $request->measurement_unit ?? 'N/A',
-            'description' => $request->description ?? 'N/A',
+            'name'             => e($request->name),
+            'email'            => e($request->email),
+            'subject'          => 'New Custom Quote Request',
+            'phone'            => e($request->phone),
+            'product_name'     => e($request->product_name ?? 'N/A'),
+            'quantity'         => e($request->quantity ?? 'N/A'),
+            'color'            => e($request->color ?? 'N/A'),
+            'length'           => e($request->length ?? 'N/A'),
+            'width'            => e($request->width ?? 'N/A'),
+            'depth'            => e($request->depth ?? 'N/A'),
+            'measurement_unit' => e($request->measurement_unit ?? 'N/A'),
+            'description'      => e($request->description ?? 'N/A'),
         ];
 
         // Create the HTML content
@@ -400,11 +406,15 @@ class EmailController extends Controller
     }
     public function contact_us(Request $request)
     {
+        if ($request->filled('website')) {
+            return response()->json(['message' => 'Contact details send successfully.', 'success' => true], 200);
+        }
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'description' => 'nullable',    
+            'name'        => 'required|string|max:255',
+            'email'       => 'required|email:rfc,dns',
+            'phone'       => 'required|string|max:30',
+            'description' => 'nullable|string|max:5000',
         ]);
 
        
@@ -430,9 +440,14 @@ class EmailController extends Controller
        
 
     }
-    public function subscribe_us(Request $request){
+    public function subscribe_us(Request $request)
+    {
+        if ($request->filled('website')) {
+            return response()->json(['message' => 'Contact details send successfully.', 'success' => true], 200);
+        }
+
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email:rfc,dns',
         ]);
 
        
@@ -458,10 +473,14 @@ class EmailController extends Controller
     }
     public function beatmyquote(Request $request)
     {
+        if ($request->filled('website')) {
+            return response()->json(['message' => 'Email send successfully.', 'success' => true], 200);
+        }
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email:rfc,dns',
+            'phone' => 'required|string|max:30',
             'product_name' => 'nullable',
             'quantity' => 'nullable',
             'color' => 'nullable',
@@ -506,22 +525,20 @@ class EmailController extends Controller
 
         
         $details = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'subject' => 'New Custom Quote Request',
-            'phone' => $request->phone,
-            'product_name' => $request->product_name ?? 'N/A', // Handle null values
-            'quantity' => $request->quantity ?? 'N/A',
-            'color' => $request->color ?? 'N/A',
-            'length' => $request->length ?? 'N/A',
-            'width' => $request->width ?? 'N/A',
-            'depth' => $request->depth ?? 'N/A',
-            'measurement_unit' => $request->measurement_unit ?? 'N/A',
-            'description' => $request->description ?? 'N/A',
+            'name'             => e($request->name),
+            'email'            => e($request->email),
+            'subject'          => 'New Custom Quote Request',
+            'phone'            => e($request->phone),
+            'product_name'     => e($request->product_name ?? 'N/A'),
+            'quantity'         => e($request->quantity ?? 'N/A'),
+            'color'            => e($request->color ?? 'N/A'),
+            'length'           => e($request->length ?? 'N/A'),
+            'width'            => e($request->width ?? 'N/A'),
+            'depth'            => e($request->depth ?? 'N/A'),
+            'measurement_unit' => e($request->measurement_unit ?? 'N/A'),
+            'description'      => e($request->description ?? 'N/A'),
         ];
 
-        
-        
         $htmlContentteam = "
         <html>
         <head>

@@ -8,21 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckOrigin
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        $allowedOrigins = explode(',', env('ALLOWED_ORIGINS', ''));
-        $origin = $request->header('Origin');
-    
-        // Allow requests without Origin header (non-browser clients)
-        if (!$origin) {
-            return $next($request);
+        $allowedOrigins = array_filter(explode(',', env('ALLOWED_ORIGINS', '')));
+        $origin         = $request->header('Origin');
+        $method         = $request->method();
+
+        // Require Origin header on all mutating requests — bots frequently omit it
+        if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE']) && !$origin) {
+            return response()->json(['error' => 'Origin required'], 403);
         }
-    
-        // Check if the Origin matches allowed domains
-        if (!in_array($origin, $allowedOrigins)) {
+
+        // Validate origin against the allowed list when one is provided
+        if ($origin && count($allowedOrigins) && !in_array($origin, $allowedOrigins)) {
             return response()->json(['error' => 'Origin not allowed'], 403);
         }
-    
+
         return $next($request);
     }
 }

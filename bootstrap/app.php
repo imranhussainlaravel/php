@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'check.origin'     => \App\Http\Middleware\CheckOrigin::class,
+            'verify.turnstile' => \App\Http\Middleware\VerifyTurnstile::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
