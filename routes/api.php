@@ -10,19 +10,19 @@ use App\Http\Controllers\EmailController;
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
-Route::get('/get_industry',[CategoryController::class, 'get_industry']);
-Route::get('/get_all_category',[CategoryController::class, 'get_all_category']);
-Route::post('/get_category_by_id', [CategoryController::class, 'get_category_by_id']);
-Route::post('/get_product_by_id', [CategoryController::class, 'get_product_by_id']);
+Route::middleware('no.cache')->group(function () {
+    Route::get('/get_industry',[CategoryController::class, 'get_industry']);
+    Route::get('/get_all_category',[CategoryController::class, 'get_all_category']);
+    Route::post('/get_category_by_id', [CategoryController::class, 'get_category_by_id']);
+    Route::post('/get_product_by_id', [CategoryController::class, 'get_product_by_id']);
+    Route::get('/get_all_blogs',[CategoryController::class, 'get_all_blogs']);
+    Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_detail_with_id']);
+    Route::post('/get_sliders_products', [CategoryController::class, 'get_sliders_products']);
+    Route::post('/search', [CategoryController::class, 'search']);
+    Route::get('/getAllProducts', [CategoryController::class, 'getAllProducts']);
+    Route::get('/get_all_category_for_seo', [CategoryController::class, 'get_all_category_for_seo']);
+});
 Route::get('/get_portfolio',[CategoryController::class, 'get_portfolio']);
-Route::get('/get_all_blogs',[CategoryController::class, 'get_all_blogs']);
-Route::post('/get_blog_detail_with_id', [CategoryController::class, 'get_blog_detail_with_id']);
-Route::post('/get_sliders_products', [CategoryController::class, 'get_sliders_products']);
-
-Route::post('/search', [CategoryController::class, 'search']);
-
-Route::get('/getAllProducts', [CategoryController::class, 'getAllProducts']);
-Route::get('/get_all_category_for_seo', [CategoryController::class, 'get_all_category_for_seo']);
 
 
 Route::post('/login_user', [AdminController::class, 'login_user']);

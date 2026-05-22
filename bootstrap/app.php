@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'check.origin'     => \App\Http\Middleware\CheckOrigin::class,
             'verify.turnstile' => \App\Http\Middleware\VerifyTurnstile::class,
+            'no.cache'         => \App\Http\Middleware\NoCacheHeaders::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

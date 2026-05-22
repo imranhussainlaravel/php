@@ -15,6 +15,7 @@ class CategoryController extends Controller
     public function get_industry(){
 
         $navbarData = Categories::where('status', 'active')
+        ->whereNull('deleted_at')
         ->select('id', 'title', 'icon', 'nav_id')
         ->orderBy('title', 'asc')
         ->get();
@@ -59,6 +60,7 @@ class CategoryController extends Controller
     public function get_all_category(){
 
         $categories = Categories::where('status', 'active')
+        ->whereNull('deleted_at')
         ->select('id', 'title', 'nav_id','main_img','alt_name')
         ->where('main_page','listed') // Replace $someValue with the value you want to exclude
         ->orderBy('sorting', 'asc') // Order by sorting in ascending order
@@ -89,10 +91,11 @@ class CategoryController extends Controller
         // Fetch category based on ID from the JSON request
         $category = Categories::where('title', $title)
             ->where('status', 'active')
-            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description','faqs')
+            ->whereNull('deleted_at')
+            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description','faqs','status','deleted_at','updated_at')
             ->first();
         if (empty($category)) {
-            return response()->json(['message' => 'Category not found','status'=>'200'], 400);
+            return response()->json(['message' => 'Category gone','status' => 410], 410);
         }
 
         if (!empty($category->faqs)) {
@@ -138,8 +141,13 @@ class CategoryController extends Controller
 
         $product = Product::where('title', $title)
         ->where('status', 'active')
-        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description','faqs')
+        ->whereNull('deleted_at')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description','faqs','status','deleted_at','updated_at')
         ->first();
+
+        if (empty($product)) {
+            return response()->json(['message' => 'Product gone', 'status' => 410], 410);
+        }
 
         if (!empty($product->faqs)) {
             $decodedFaqs = json_decode($product->faqs, true);
@@ -156,13 +164,7 @@ class CategoryController extends Controller
     
         unset($product->image_1, $product->image_2, $product->image_3, $product->image_4);
     
-        return $product;
-
-        return response()->json([
-            'product' => $product,
-            'status' => 200,
-            'message' => 'Category found successfully'
-        ]);
+        return response()->json($product, 200);
     }
     public function get_portfolio(){
        $portfolios = Portfolio::orderBy('id', 'desc')->get();
@@ -173,6 +175,7 @@ class CategoryController extends Controller
     }
     public function get_all_blogs(){
         $blogs = Blog::where('status', 'active') // Only active blogs
+        ->whereNull('deleted_at')
         ->orderBy('sorting', 'asc') // Sorting
         ->get(); // Fetch only title and image
 
@@ -184,10 +187,13 @@ class CategoryController extends Controller
     public function get_blog_detail_with_id(Request $request){
         $id = $request->json('id');
     
-        $blog = Blog::find($id);
+        $blog = Blog::where('id', $id)
+            ->where('status', 'active')
+            ->whereNull('deleted_at')
+            ->first();
 
         if (!$blog) {
-            return response()->json(['message' => 'Blog not found','status' => 200], 404);
+            return response()->json(['message' => 'Blog gone','status' => 410], 410);
         }
 
         return response()->json([
@@ -281,7 +287,9 @@ class CategoryController extends Controller
     }
     public function getAllProducts()
     {
-        $products = Product::all(); 
+        $products = Product::where('status', 'active')
+            ->whereNull('deleted_at')
+            ->get(); 
 
         foreach ($products as $product) {
             // Decode `faqs` only if it's not empty
@@ -312,7 +320,10 @@ class CategoryController extends Controller
     }
     public function get_all_category_for_seo()
     {
-        $categories = Categories::orderBy('sorting', 'asc')->get();
+        $categories = Categories::where('status', 'active')
+            ->whereNull('deleted_at')
+            ->orderBy('sorting', 'asc')
+            ->get();
 
         // Convert FAQs to JSON format if they are not empty
         $categories->transform(function ($category) {
