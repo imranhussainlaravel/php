@@ -96,7 +96,7 @@ class CategoryController extends Controller
             })
             ->where('status', 'active')
             ->whereNull('deleted_at')
-            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description','faqs','status','deleted_at','updated_at')
+            ->select('id', 'title', 'description', 'main_img', 'alt_name' , 'header_img','nav_id','content','meta_description','meta_title','faqs','status','deleted_at','updated_at')
             ->first();
         if (empty($category)) {
             return response()->json(['message' => 'Category gone','status' => 410], 410);
@@ -150,7 +150,7 @@ class CategoryController extends Controller
         })
         ->where('status', 'active')
         ->whereNull('deleted_at')
-        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description','faqs','status','deleted_at','updated_at')
+        ->select('id', 'title', 'description', 'image_1','image_2','image_3','image_4','image_5', 'alt_name','content','title_2','description_2','meta_description','meta_title','faqs','status','deleted_at','updated_at')
         ->first();
 
         if (empty($product)) {

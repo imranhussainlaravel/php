@@ -72,10 +72,11 @@ class AdminController extends Controller
             'header_img' => 'nullable',  
             'main_img' => 'nullable',  
             'icon' => 'nullable', 
-            'meta_description' => 'nullable', 
+            'meta_description' => 'nullable',
+            'meta_title' => 'nullable',
             'alt_name' => 'nullable',
             'content' => 'nullable',
-            // 'faqs' => 'nullable',
+            'faqs' => 'nullable|array',
             'id' => 'nullable',
             'status' => 'nullable',
             'main_page' => 'nullable',
@@ -116,7 +117,13 @@ class AdminController extends Controller
                 // $category->icon = $validatedData['icon'];
                 $category->content = $validatedData['content'] ?? '';
                 $category->meta_description  = $validatedData['meta_description'] ?? '';
-                // $category->faqs = $validatedData['faqs'];
+                // SEO: only overwrite when the key is present so existing values aren't wiped on partial saves.
+                if ($request->has('meta_title')) {
+                    $category->meta_title = $validatedData['meta_title'] ?? '';
+                }
+                if ($request->has('faqs')) {
+                    $category->faqs = json_encode($validatedData['faqs'] ?? []);
+                }
                 $category->alt_name = $validatedData['alt_name'];
                 $category->status = $validatedData['status'];
                 $category->main_page = $validatedData['main_page'];
@@ -151,7 +158,8 @@ class AdminController extends Controller
             $category->icon = $validatedData['icon'] ?? "";
             $category->content = $validatedData['content'] ?? '';
             $category->meta_description  = $validatedData['meta_description'] ?? '';
-            // $category->faqs = $validatedData['faqs'];
+            $category->meta_title = $validatedData['meta_title'] ?? '';
+            $category->faqs = json_encode($validatedData['faqs'] ?? []);
             $category->alt_name = $validatedData['alt_name'];
             $category->status = $validatedData['status'];
             $category->main_page = $validatedData['main_page'];
@@ -408,8 +416,9 @@ class AdminController extends Controller
             'alt_name'     => 'nullable|max:255',
             'description'  => 'nullable',
             'description_2' => 'nullable',
-            'meta_description' => 'nullable', 
-            // 'faqs'         => 'nullable',
+            'meta_description' => 'nullable',
+            'meta_title'   => 'nullable',
+            'faqs'         => 'nullable|array',
             'content'      => 'nullable',
             'industry_id'  => 'nullable|integer',
             'material_id'  => 'nullable|integer',
@@ -430,7 +439,6 @@ class AdminController extends Controller
             'description'  => $validatedData['description'],
             'description_2' => $validatedData['description_2'] ?? "",
             'meta_description' => $validatedData['meta_description'] ?? "",
-            // 'faqs'         => $validatedData['faqs'] ?? "",
             'content'      => $validatedData['content'] ?? "",
             'industry_id'  => $validatedData['industry_id']?? "0",
             'material_id'  => $validatedData['material_id']?? "0",
@@ -442,6 +450,14 @@ class AdminController extends Controller
             // 'image_5'      => $validatedData['image_5'] ?? "",
             'status'       => $validatedData['status'] ?? "active",
         ];
+
+        // SEO: only set when present so existing values aren't overwritten on partial saves.
+        if ($request->has('meta_title')) {
+            $productData['meta_title'] = $validatedData['meta_title'] ?? "";
+        }
+        if ($request->has('faqs')) {
+            $productData['faqs'] = json_encode($validatedData['faqs'] ?? []);
+        }
 
         // if (!empty($validatedData['images'])) {
         //     foreach ($validatedData['images'] as $index => $imageUrl) {
