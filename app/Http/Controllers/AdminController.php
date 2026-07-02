@@ -670,6 +670,7 @@ class AdminController extends Controller
             'image' => 'required',
             'content' => 'nullable|string',
             'meta_description' => 'nullable',
+            'meta_title' => 'nullable',
             'sorting' => 'nullable|integer',
             'status' => 'nullable|in:active,inactive',
         ]);
@@ -683,6 +684,7 @@ class AdminController extends Controller
             'image' => $request->image,
             'content' => $request->content,
             'meta_description' => $request->meta_description,
+            'meta_title' => $request->meta_title,
             'sorting' => $request->sorting ?? 0,
             'status' => $request->status ?? 'active',
         ];
