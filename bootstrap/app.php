@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // CORS middleware must run first on every request (including OPTIONS preflight)
+        $middleware->prepend(\App\Http\Middleware\CorsMiddleware::class);
+
         $middleware->alias([
             'check.origin'     => \App\Http\Middleware\CheckOrigin::class,
             'verify.turnstile' => \App\Http\Middleware\VerifyTurnstile::class,
